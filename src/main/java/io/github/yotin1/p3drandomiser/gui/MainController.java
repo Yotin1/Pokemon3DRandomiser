@@ -1,4 +1,4 @@
-package io.github.yotin1.gui;
+package io.github.yotin1.p3drandomiser.gui;
 
 import java.io.IOException;
 
