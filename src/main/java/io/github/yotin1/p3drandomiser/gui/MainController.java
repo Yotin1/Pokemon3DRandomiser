@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.prefs.Preferences;
 
-import io.github.yotin1.p3drandomiser.Pokemon;
 import io.github.yotin1.p3drandomiser.Randomiser;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -16,7 +15,6 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.stage.DirectoryChooser;
-import javafx.stage.Window;
 
 public class MainController {
 
