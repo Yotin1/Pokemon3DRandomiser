@@ -1,0 +1,25 @@
+* {
+	-fx-border-radius: 0;
+	-fx-background-radius: 0;
+}
+
+.checkbox-container, GridPane {
+    -fx-border-style: solid;
+    -fx-border-color: silver;
+	-fx-padding: 10;
+}
+
+.box-title {
+    -fx-background-color: whitesmoke;
+	-fx-font-weight: bold;
+}
+
+.checkbox-container {
+	
+}
+
+#randomiseBtn {
+	-fx-alignment: center;
+}
+
+
