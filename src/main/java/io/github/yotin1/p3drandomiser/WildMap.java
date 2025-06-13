@@ -1,24 +1,20 @@
 package io.github.yotin1.p3drandomiser;
 
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 
-public class WildMap {
+public class WildMap extends P3DFile {
 
-    private String path;
-    private List<String> file;
     private List<String[]> encounters = new ArrayList<String[]>();
 
-    public WildMap(String path) {
+    public WildMap(Path path) {
 
-        this.path = path;
+        super(path);
 
-        this.file = FileHandler
-                .readFile(Randomiser.directory + "\\Content\\Data\\maps\\poke\\" + path + ".poke");
-
-        for (String row : this.file) {
+        for (String row : this.data) {
             String[] rowAsArray = StringUtils.split(StringUtils.substringBetween(row, "{", "}"), "|");
             if (rowAsArray != null) {
                 this.encounters.add(rowAsArray);
@@ -26,12 +22,12 @@ public class WildMap {
         }
     }
 
-    public String getPath() {
+    public Path getPath() {
         return this.path;
     }
 
     public List<String> getFile() {
-        return this.file;
+        return this.data;
     }
 
     public List<String[]> getEncounters() {
@@ -44,10 +40,10 @@ public class WildMap {
             return encounter;
         });
 
-        for (int index = 2; index < file.size(); index++) {
-            file.set(index, StringUtils.join(encounters.get(index - 2), "|"));
+        for (int index = 2; index < data.size(); index++) {
+            data.set(index, StringUtils.join(encounters.get(index - 2), "|"));
         }
 
-        FileHandler.writeFile(this.file, "\\Content\\Data\\maps\\poke\\" + path + ".poke");
+        writeFile(this.data, this.path, this.charset);
     }
 }

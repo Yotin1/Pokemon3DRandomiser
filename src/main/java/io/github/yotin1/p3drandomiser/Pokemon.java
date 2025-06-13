@@ -1,6 +1,5 @@
 package io.github.yotin1.p3drandomiser;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedHashSet;
@@ -9,24 +8,21 @@ import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
 
-public class Pokemon {
+public class Pokemon extends P3DFile {
 
     private String id;
-    private List<String> file;
     private String name;
     private String type1;
     private String type2;
     private List<String> evolutions = new ArrayList<String>();
     private Set<String> machines = new LinkedHashSet<String>();
 
-    public Pokemon(String id) throws IOException {
+    public Pokemon(String id) {
 
+        super(Randomiser.directory.resolve("Content\\Pokemon\\Data\\" + id + ".dat"));
         this.id = id;
 
-        this.file = FileHandler
-                .readFile(Randomiser.directory + "\\Content\\Pokemon\\Data\\" + id + ".dat");
-
-        for (String property : this.file) {
+        for (String property : this.data) {
 
             String[] propertyArray = StringUtils.split(property, "|");
 
@@ -85,25 +81,25 @@ public class Pokemon {
 
         List<String> hms = Arrays.asList("15", "19", "57", "70", "127", "148", "250", "291", "431", "560");
         this.machines.addAll(hms);
-
+        updateFile();
     }
 
     public void updateFile() {
 
-        for (int x = 0; x < this.file.size(); x++) {
+        for (int x = 0; x < this.data.size(); x++) {
 
-            switch (StringUtils.substringBefore(this.file.get(x), "|")) {
+            switch (StringUtils.substringBefore(this.data.get(x), "|")) {
 
                 case "Type1":
-                    this.file.set(x, "Type1|" + this.type1);
+                    this.data.set(x, "Type1|" + this.type1);
                     break;
 
                 case "Type2":
-                    this.file.set(x, "Type2|" + this.type2);
+                    this.data.set(x, "Type2|" + this.type2);
                     break;
 
                 case "Machines":
-                    this.file.set(x, "Machines|" + StringUtils.join(this.machines, ","));
+                    this.data.set(x, "Machines|" + StringUtils.join(this.machines, ","));
                     break;
             }
         }
@@ -112,6 +108,6 @@ public class Pokemon {
     @Override
     public String toString() {
 
-        return StringUtils.join(this.file, "\n");
+        return StringUtils.join(this.data, "\n");
     }
 }
