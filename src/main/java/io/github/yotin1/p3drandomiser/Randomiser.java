@@ -8,6 +8,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 import java.util.Random;
 import java.util.Set;
 
@@ -77,7 +78,9 @@ public final class Randomiser {
         setRandomRange(
                 new HashSet<>(Set.of("gen1", "gen2", "gen3", "gen4", "gen5", "gen6", "gen7",
                         "gen8", "regionalForms")));
-        new WildMap("violet").getEncounters().forEach(e -> System.out.println(Arrays.toString(e)));
+        WildMap wildMap = new WildMap("violet");
+        wildMap.randomise();
+        new GameMode("test");
     }
 
     public static void run(Map<String, Boolean> checkBoxes, String gamemodeName, String seed) throws IOException {
@@ -87,7 +90,7 @@ public final class Randomiser {
         System.out.println(poke.getMachines());
     }
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         directory = "D:\\Program Files\\Pokemon 3D\\0.60 Release";
         run();
     }
