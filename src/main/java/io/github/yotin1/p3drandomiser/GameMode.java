@@ -1,6 +1,8 @@
 package io.github.yotin1.p3drandomiser;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -81,7 +83,7 @@ public class GameMode {
         datFile.add("SkinNames|" + GameMode.skinNames);
         datFile.add("SkinGenders|" + GameMode.skinGenders);
 
-        FileHandler.writeFile(datFile, "\\GameMode.dat");
+        P3DFile.writeFile(datFile, Paths.get("GameMode.dat"), StandardCharsets.UTF_8);
     }
 
     public static String getName() {

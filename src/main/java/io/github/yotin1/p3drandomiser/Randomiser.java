@@ -2,13 +2,12 @@ package io.github.yotin1.p3drandomiser;
 
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 import java.util.Random;
 import java.util.Set;
 
@@ -16,13 +15,19 @@ import org.apache.commons.lang3.StringUtils;
 
 public final class Randomiser {
 
-    public static String directory;
+    public static Path directory;
     private static List<String> pokeList = new ArrayList<String>();
     private static Random random = new Random();
 
     public Randomiser() {
     }
 
+    /**
+     * Populates the pokeList with Pokémon names from the specified directory,
+     * filtering by generation and/or regional forms.
+     *
+     * @param generations Set of generation numbers to include.
+     */
     private static void setRandomRange(Set<String> generations) {
 
         Set<String> ignoreSuffix = new HashSet<String>(
@@ -32,12 +37,9 @@ public final class Randomiser {
         Set<String> regions = new HashSet<String>(
                 Set.of("alola", "galar"));
         try {
-            Files.list(Paths.get(directory + "\\Content\\Pokemon\\Data"))
+            Files.list(directory.resolve("Content\\Pokemon\\Data"))
                     .filter(file -> !file.toFile().isDirectory())
                     .forEach(file -> {
-                        // System.out.println(file.getFileName().toString() + " - " +
-                        // StringUtils.getDigits(StringUtils.substringBefore(file.getFileName().toString(),
-                        // "_")));
                         int num = Integer.parseInt(
                                 StringUtils.getDigits(StringUtils.substringBefore(file.getFileName().toString(), "_")));
                         String suffix = StringUtils.substringBetween(file.getFileName().toString(), "_", ".dat");
@@ -65,12 +67,33 @@ public final class Randomiser {
                         }
                     });
         } catch (IOException e) {
-            System.err.println(e);
+            e.printStackTrace();
         }
     }
 
+    /**
+     * Returns a random Pokémon from the list of available Pokémon.
+     *
+     * @return A random Pokémon name as a String.
+     */
     public static String getRandomPokemon() {
         return pokeList.get(random.nextInt(pokeList.size()));
+    }
+
+    public static void randomiseWild() {
+
+        Path wildDirectory = directory.resolve("Content\\Data\\maps\\poke");
+
+        try {
+            Files.walk(wildDirectory)
+                    .filter(file -> !file.toFile().isDirectory())
+                    .forEach(file -> {
+                        WildMap wildMap = new WildMap(file);
+                        System.out.println(file);
+                    });
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public static void run() {
@@ -78,8 +101,7 @@ public final class Randomiser {
         setRandomRange(
                 new HashSet<>(Set.of("gen1", "gen2", "gen3", "gen4", "gen5", "gen6", "gen7",
                         "gen8", "regionalForms")));
-        WildMap wildMap = new WildMap("violet");
-        wildMap.randomise();
+        randomiseWild();
         new GameMode("test");
     }
 
@@ -91,7 +113,7 @@ public final class Randomiser {
     }
 
     public static void main(String[] args) {
-        directory = "D:\\Program Files\\Pokemon 3D\\0.60 Release";
+        directory = Paths.get("D:\\Program Files\\Pokemon 3D\\0.60 Release");
         run();
     }
 }
