@@ -1,14 +1,9 @@
 package io.github.yotin1.p3drandomiser;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
-
-import org.apache.commons.lang3.StringUtils;
 
 public class GameMode {
 
@@ -85,18 +80,6 @@ public class GameMode {
         datFile.add("SkinFiles|" + GameMode.skinFiles);
         datFile.add("SkinNames|" + GameMode.skinNames);
         datFile.add("SkinGenders|" + GameMode.skinGenders);
-
-        // try {
-        // Files.createDirectory(Path.of(GameMode.name));
-        // } catch (IOException e) {
-        // e.printStackTrace();
-        // }
-
-        // try {
-        // Files.write(Path.of(GameMode.name + "\\GameMode.dat"), datFile);
-        // } catch (IOException e) {
-        // e.printStackTrace();
-        // }
 
         FileHandler.writeFile(datFile, "\\GameMode.dat");
     }
