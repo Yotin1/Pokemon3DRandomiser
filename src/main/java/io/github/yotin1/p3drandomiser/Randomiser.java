@@ -14,6 +14,8 @@ import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
 
+import io.github.yotin1.p3drandomiser.wildpokemon.WildMap;
+
 public final class Randomiser {
 
     public static Path directory;
@@ -104,6 +106,7 @@ public final class Randomiser {
                         "gen8", "regionalForms")));
         randomiseWild();
         new GameMode("test");
+        P3DFile.scanFiles();
     }
 
     public static void run(Map<String, Boolean> checkBoxes, String gamemodeName, String seed) throws IOException {

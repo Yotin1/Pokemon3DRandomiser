@@ -9,6 +9,8 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
+
 public class P3DFile {
 
     protected Path path;
@@ -65,5 +67,44 @@ public class P3DFile {
             System.out.println(gameModePath);
             e.printStackTrace();
         }
+    }
+
+    public static void scanFiles() {
+
+        List<Path> staticList = new ArrayList<Path>();
+        List<Path> roamingList = new ArrayList<Path>();
+        List<Path> tradeList = new ArrayList<Path>();
+        List<Path> giftList = new ArrayList<Path>();
+        try {
+            Files.walk(Randomiser.directory.resolve("Content\\Data\\Scripts"))
+                    .filter(path -> !path.toFile().isDirectory())
+                    .forEach(path -> {
+                        P3DFile file = new P3DFile(path);
+                        file.getData().forEach(line -> {
+                            if (StringUtils.contains(line.toLowerCase(), "@battle.wild")) {
+                                staticList.add(path);
+                            }
+                            if (StringUtils.contains(line.toLowerCase(), "@pokemon.newroaming")) {
+                                roamingList.add(path);
+                            }
+                            if (StringUtils.contains(line.toLowerCase(), "@pokemon.npctrade")) {
+                                tradeList.add(path);
+                            }
+                            if (StringUtils.contains(line.toLowerCase(), "@pokemon.add")) {
+                                giftList.add(path);
+                            }
+                        });
+                    });
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        System.out.println("Static");
+        staticList.forEach(entry -> System.out.println(entry));
+        System.out.println("\nRoaming");
+        roamingList.forEach(entry -> System.out.println(entry));
+        System.out.println("\nTrades");
+        tradeList.forEach(entry -> System.out.println(entry));
+        System.out.println("\nGift");
+        giftList.forEach(entry -> System.out.println(entry));
     }
 }

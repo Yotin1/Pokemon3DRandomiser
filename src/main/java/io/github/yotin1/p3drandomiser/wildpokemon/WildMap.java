@@ -1,10 +1,13 @@
-package io.github.yotin1.p3drandomiser;
+package io.github.yotin1.p3drandomiser.wildpokemon;
 
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
+
+import io.github.yotin1.p3drandomiser.P3DFile;
+import io.github.yotin1.p3drandomiser.Randomiser;
 
 public class WildMap extends P3DFile {
 
