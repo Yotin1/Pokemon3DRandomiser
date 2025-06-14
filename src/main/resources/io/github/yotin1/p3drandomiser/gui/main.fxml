@@ -26,6 +26,7 @@
                            <children>
                               <CheckBox fx:id="randomiseWild" mnemonicParsing="false" text="Randomise Wild Encounters" />
                               <CheckBox fx:id="randomiseStatic" mnemonicParsing="false" text="Randomise Static Encounters" />
+                              <CheckBox fx:id="randomiseRoaming" mnemonicParsing="false" text="Randomise Roaming Pokemon" />
                            </children>
                            <padding>
                               <Insets top="10.0" />

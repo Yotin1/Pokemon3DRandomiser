@@ -28,6 +28,8 @@ public class MainController {
     private CheckBox randomiseWild;
     @FXML
     private CheckBox randomiseStatic;
+    @FXML
+    private CheckBox randomiseRoaming;
 
     @FXML
     private CheckBox randomiseTrainers;
@@ -146,6 +148,7 @@ public class MainController {
         Map<String, Boolean> checkBoxes = new HashMap<String, Boolean>();
         checkBoxes.put("randomiseWild", randomiseWild.isSelected());
         checkBoxes.put("randomiseStatic", randomiseStatic.isSelected());
+        checkBoxes.put("randomiseRoaming", randomiseStatic.isSelected());
         checkBoxes.put("randomiseTrainers", randomiseTrainers.isSelected());
         checkBoxes.put("rivalKeepStarter", rivalKeepStarter.isSelected());
         checkBoxes.put("rivalStarterEvolves", rivalStarterEvolves.isSelected());
