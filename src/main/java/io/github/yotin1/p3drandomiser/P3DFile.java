@@ -43,25 +43,26 @@ public class P3DFile {
 
     public static void writeFile(List<String> data, Path targetPath, Charset charset) {
 
-        // System.out.println(Randomiser.directory.relativize(targetPath));
         Path gameModePath;
         if (targetPath.isAbsolute()) {
-            gameModePath = Paths.get(GameMode.getName()).resolve(targetPath.relativize(Randomiser.directory));
+            gameModePath = Paths.get("GameModes\\" + GameMode.getName())
+                    .resolve(Randomiser.directory.relativize(targetPath));
         } else {
-            gameModePath = Paths.get(GameMode.getName()).resolve(targetPath);
+            gameModePath = Paths.get("GameModes\\" + GameMode.getName()).resolve(targetPath);
         }
 
-        System.out.println(gameModePath);
         if (!Files.exists(gameModePath.getParent())) {
             try {
                 Files.createDirectories(gameModePath.getParent());
             } catch (IOException e) {
+                System.out.println(gameModePath);
                 e.printStackTrace();
             }
         }
         try {
             Files.write(gameModePath, data);
         } catch (IOException e) {
+            System.out.println(gameModePath);
             e.printStackTrace();
         }
     }

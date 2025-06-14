@@ -16,9 +16,7 @@ public class WildMap extends P3DFile {
 
         for (String row : this.data) {
             String[] rowAsArray = StringUtils.split(StringUtils.substringBetween(row, "{", "}"), "|");
-            if (rowAsArray != null) {
-                this.encounters.add(rowAsArray);
-            }
+            this.encounters.add(rowAsArray);
         }
     }
 
@@ -36,12 +34,18 @@ public class WildMap extends P3DFile {
 
     public void randomise() {
         encounters.replaceAll(encounter -> {
-            encounter[1] = Randomiser.getRandomPokemon();
+            if (encounter != null) {
+                if (encounter.length >= 2) {
+                    encounter[1] = Randomiser.getRandomPokemon();
+                }
+            }
             return encounter;
         });
 
-        for (int index = 2; index < data.size(); index++) {
-            data.set(index, StringUtils.join(encounters.get(index - 2), "|"));
+        for (int index = 0; index < data.size(); index++) {
+            if (encounters.get(index) != null) {
+                data.set(index, "{" + StringUtils.join(encounters.get(index), "|") + "}");
+            }
         }
 
         writeFile(this.data, this.path, this.charset);

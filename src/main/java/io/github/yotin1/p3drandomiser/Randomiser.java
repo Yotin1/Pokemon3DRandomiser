@@ -5,6 +5,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -89,7 +90,7 @@ public final class Randomiser {
                     .filter(file -> !file.toFile().isDirectory())
                     .forEach(file -> {
                         WildMap wildMap = new WildMap(file);
-                        System.out.println(file);
+                        wildMap.randomise();
                     });
         } catch (IOException e) {
             e.printStackTrace();
