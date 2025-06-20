@@ -1,5 +1,6 @@
 package io.github.yotin1.p3drandomiser;
 
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedHashSet;
@@ -19,7 +20,7 @@ public class Pokemon extends P3DFile {
 
     public Pokemon(String id) {
 
-        super(Randomiser.directory.resolve("Content\\Pokemon\\Data\\" + id + ".dat"));
+        super(Paths.get("Content\\Pokemon\\Data\\" + id + ".dat"));
         this.id = id;
 
         for (String property : this.data) {

@@ -11,9 +11,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
 
+import io.github.yotin1.p3drandomiser.wildpokemon.StaticEncounters;
 import io.github.yotin1.p3drandomiser.wildpokemon.WildMap;
 
 public final class Randomiser {
@@ -83,7 +86,7 @@ public final class Randomiser {
         return pokeList.get(random.nextInt(pokeList.size()));
     }
 
-    public static void randomiseWild() {
+    private static void randomiseWild() {
 
         Path wildDirectory = directory.resolve("Content\\Data\\maps\\poke");
 
@@ -99,14 +102,21 @@ public final class Randomiser {
         }
     }
 
-    public static void run() {
+    private static void run() {
 
         setRandomRange(
                 new HashSet<>(Set.of("gen1", "gen2", "gen3", "gen4", "gen5", "gen6", "gen7",
                         "gen8", "regionalForms")));
-        randomiseWild();
-        new GameMode("test");
-        P3DFile.scanFiles();
+        // randomiseWild();
+
+        // new GameMode("test");
+
+        // P3DFile.scanFiles();
+
+        System.out.println(Arrays.toString(StaticEncounters.values()));
+        for (StaticEncounters encounter : StaticEncounters.values()) {
+            encounter.randomise();
+        }
     }
 
     public static void run(Map<String, Boolean> checkBoxes, String gamemodeName, String seed) throws IOException {
