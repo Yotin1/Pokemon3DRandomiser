@@ -6,6 +6,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -22,7 +23,11 @@ import io.github.yotin1.p3drandomiser.wildpokemon.WildMap;
 public final class Randomiser {
 
     public static Path directory;
-    private static List<String> pokeList = new ArrayList<String>();
+    private static Map<String, Boolean> checkBoxes = new HashMap<String, Boolean>();
+    private static String seed;
+    private static String gamemodeName;
+    private static List<String> normalList = new ArrayList<String>();
+    private static List<String> legendaryList = new ArrayList<String>();
     private static Random random = new Random();
 
     public Randomiser() {
@@ -34,7 +39,7 @@ public final class Randomiser {
      *
      * @param generations Set of generation numbers to include.
      */
-    private static void setRandomRange(Set<String> generations) {
+    private static void setRandomRange() {
 
         Set<String> ignoreSuffix = new HashSet<String>(
                 Set.of("mega", "mega_x", "mega_y", "heat", "fan", "mow", "wash", "frost", "unbound",
@@ -42,6 +47,9 @@ public final class Randomiser {
                         "therian", "sky", "zen"));
         Set<String> regions = new HashSet<String>(
                 Set.of("alola", "galar"));
+
+        Set<String> legendaries = LegendaryPokemon.getMap().keySet();
+
         try {
             Files.list(directory.resolve("Content\\Pokemon\\Data"))
                     .filter(file -> !file.toFile().isDirectory())
@@ -51,23 +59,55 @@ public final class Randomiser {
                         String suffix = StringUtils.substringBetween(file.getFileName().toString(), "_", ".dat");
                         // suffixes.add(suffix);
                         if (!ignoreSuffix.contains(suffix)) {
-                            if (!regions.contains(suffix) || generations.contains("regionalForms")) {
-                                if (1 <= num && num <= 151 && generations.contains("gen1")) {
-                                    pokeList.add(StringUtils.remove(file.getFileName().toString(), ".dat"));
-                                } else if (152 <= num && num <= 251 && generations.contains("gen2")) {
-                                    pokeList.add(StringUtils.remove(file.getFileName().toString(), ".dat"));
-                                } else if (252 <= num && num <= 386 && generations.contains("gen3")) {
-                                    pokeList.add(StringUtils.remove(file.getFileName().toString(), ".dat"));
-                                } else if (387 <= num && num <= 493 && generations.contains("gen4")) {
-                                    pokeList.add(StringUtils.remove(file.getFileName().toString(), ".dat"));
-                                } else if (494 <= num && num <= 649 && generations.contains("gen5")) {
-                                    pokeList.add(StringUtils.remove(file.getFileName().toString(), ".dat"));
-                                } else if (650 <= num && num <= 721 && generations.contains("gen6")) {
-                                    pokeList.add(StringUtils.remove(file.getFileName().toString(), ".dat"));
-                                } else if (722 <= num && num <= 809 && generations.contains("gen7")) {
-                                    pokeList.add(StringUtils.remove(file.getFileName().toString(), ".dat"));
-                                } else if (810 <= num && num <= 905 && generations.contains("gen8")) {
-                                    pokeList.add(StringUtils.remove(file.getFileName().toString(), ".dat"));
+                            if (!regions.contains(suffix) || Randomiser.checkBoxes.get("regionalForms")) {
+                                if (1 <= num && num <= 151 && Randomiser.checkBoxes.get("gen1")) {
+                                    if (legendaries.contains(String.valueOf(num))) {
+                                        legendaryList.add(StringUtils.remove(file.getFileName().toString(), ".dat"));
+                                    } else {
+                                        normalList.add(StringUtils.remove(file.getFileName().toString(), ".dat"));
+                                    }
+                                } else if (152 <= num && num <= 251 && Randomiser.checkBoxes.get("gen2")) {
+                                    if (legendaries.contains(String.valueOf(num))) {
+                                        legendaryList.add(StringUtils.remove(file.getFileName().toString(), ".dat"));
+                                    } else {
+                                        normalList.add(StringUtils.remove(file.getFileName().toString(), ".dat"));
+                                    }
+                                } else if (252 <= num && num <= 386 && Randomiser.checkBoxes.get("gen3")) {
+                                    if (legendaries.contains(String.valueOf(num))) {
+                                        legendaryList.add(StringUtils.remove(file.getFileName().toString(), ".dat"));
+                                    } else {
+                                        normalList.add(StringUtils.remove(file.getFileName().toString(), ".dat"));
+                                    }
+                                } else if (387 <= num && num <= 493 && Randomiser.checkBoxes.get("gen4")) {
+                                    if (legendaries.contains(String.valueOf(num))) {
+                                        legendaryList.add(StringUtils.remove(file.getFileName().toString(), ".dat"));
+                                    } else {
+                                        normalList.add(StringUtils.remove(file.getFileName().toString(), ".dat"));
+                                    }
+                                } else if (494 <= num && num <= 649 && Randomiser.checkBoxes.get("gen5")) {
+                                    if (legendaries.contains(String.valueOf(num))) {
+                                        legendaryList.add(StringUtils.remove(file.getFileName().toString(), ".dat"));
+                                    } else {
+                                        normalList.add(StringUtils.remove(file.getFileName().toString(), ".dat"));
+                                    }
+                                } else if (650 <= num && num <= 721 && Randomiser.checkBoxes.get("gen6")) {
+                                    if (legendaries.contains(String.valueOf(num))) {
+                                        legendaryList.add(StringUtils.remove(file.getFileName().toString(), ".dat"));
+                                    } else {
+                                        normalList.add(StringUtils.remove(file.getFileName().toString(), ".dat"));
+                                    }
+                                } else if (722 <= num && num <= 809 && Randomiser.checkBoxes.get("gen7")) {
+                                    if (legendaries.contains(String.valueOf(num))) {
+                                        legendaryList.add(StringUtils.remove(file.getFileName().toString(), ".dat"));
+                                    } else {
+                                        normalList.add(StringUtils.remove(file.getFileName().toString(), ".dat"));
+                                    }
+                                } else if (810 <= num && num <= 905 && Randomiser.checkBoxes.get("gen8")) {
+                                    if (legendaries.contains(String.valueOf(num))) {
+                                        legendaryList.add(StringUtils.remove(file.getFileName().toString(), ".dat"));
+                                    } else {
+                                        normalList.add(StringUtils.remove(file.getFileName().toString(), ".dat"));
+                                    }
                                 }
                             }
                         }
@@ -83,7 +123,20 @@ public final class Randomiser {
      * @return A random Pokémon name as a String.
      */
     public static String getRandomPokemon() {
-        return pokeList.get(random.nextInt(pokeList.size()));
+        int randomNum = random.nextInt(normalList.size() + legendaryList.size());
+        if (randomNum < normalList.size()) {
+            return normalList.get(randomNum);
+        } else {
+            return legendaryList.get(randomNum - normalList.size());
+        }
+    }
+
+    public static String getRandomNormalPokemon() {
+        return normalList.get(random.nextInt(normalList.size()));
+    }
+
+    public static String getRandomLegendaryPokemon() {
+        return normalList.get(random.nextInt(legendaryList.size()));
     }
 
     private static void randomiseWild() {
@@ -102,32 +155,52 @@ public final class Randomiser {
         }
     }
 
-    private static void run() {
+    public static void run(Map<String, Boolean> checkBoxes, String gamemodeName, String seed, String directory) {
 
-        setRandomRange(
-                new HashSet<>(Set.of("gen1", "gen2", "gen3", "gen4", "gen5", "gen6", "gen7",
-                        "gen8", "regionalForms")));
+        Randomiser.checkBoxes = checkBoxes;
+        Randomiser.gamemodeName = gamemodeName;
+        Randomiser.seed = seed;
+        Randomiser.directory = Paths.get(directory);
+
+        setRandomRange();
         // randomiseWild();
 
         // new GameMode("test");
 
         // P3DFile.scanFiles();
 
-        System.out.println(Arrays.toString(StaticEncounters.values()));
-        for (StaticEncounters encounter : StaticEncounters.values()) {
-            encounter.randomise();
-        }
-    }
+        // for (StaticEncounters encounter : StaticEncounters.values()) {
+        // encounter.randomise();
+        // }
 
-    public static void run(Map<String, Boolean> checkBoxes, String gamemodeName, String seed) throws IOException {
-        Pokemon poke = new Pokemon("9");
-        System.out.println(poke.getMachines());
-        poke.addHMs();
-        System.out.println(poke.getMachines());
+        System.out.println(LegendaryPokemon.getMap().keySet());
     }
 
     public static void main(String[] args) {
-        directory = Paths.get("D:\\Program Files\\Pokemon 3D\\0.60 Release");
-        run();
+
+        Map<String, Boolean> checkBoxes = new HashMap<String, Boolean>();
+        checkBoxes.put("randomiseWild", true);
+        checkBoxes.put("randomiseStatic", false);
+        checkBoxes.put("randomiseRoaming", false);
+        checkBoxes.put("randomiseTrainers", false);
+        checkBoxes.put("rivalKeepStarter", false);
+        checkBoxes.put("rivalStarterEvolves", false);
+        checkBoxes.put("randomiseTrades", false);
+        checkBoxes.put("randomiseGameCorner", false);
+        checkBoxes.put("learnHMs", false);
+        checkBoxes.put("gen1", true);
+        checkBoxes.put("gen2", true);
+        checkBoxes.put("gen3", true);
+        checkBoxes.put("gen4", true);
+        checkBoxes.put("gen5", true);
+        checkBoxes.put("gen6", true);
+        checkBoxes.put("gen7", true);
+        checkBoxes.put("gen8", true);
+        checkBoxes.put("regionalForms", true);
+        checkBoxes.put("hgssMusic", false);
+        checkBoxes.put("overworldSprites", false);
+        String gamemodeName = "test";
+        String directory = "D:\\Program Files\\Pokemon 3D\\0.60 Release";
+        run(checkBoxes, gamemodeName, null, directory);
     }
 }
