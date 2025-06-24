@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<ScrollPane fx:id="root" accessibleRole="PARENT" fitToHeight="true" fitToWidth="true" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="io.github.yotin1.p3drandomiser.gui.MainController">
+<ScrollPane accessibleRole="PARENT" fitToHeight="true" fitToWidth="true" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="io.github.yotin1.p3drandomiser.gui.MainController">
   <content>
     <AnchorPane minHeight="-Infinity" minWidth="-Infinity">
          <children>

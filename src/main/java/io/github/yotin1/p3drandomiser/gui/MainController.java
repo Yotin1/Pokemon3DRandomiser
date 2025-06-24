@@ -143,34 +143,14 @@ public class MainController {
     }
 
     @FXML
-    protected void randomise() throws IOException {
+    protected void randomise(ActionEvent event) throws IOException {
 
         Map<String, Boolean> checkBoxes = new HashMap<String, Boolean>();
-        checkBoxes.put("randomiseWild", randomiseWild.isSelected());
-        checkBoxes.put("randomiseStatic", randomiseStatic.isSelected());
-        checkBoxes.put("randomiseRoaming", randomiseStatic.isSelected());
-        checkBoxes.put("randomiseTrainers", randomiseTrainers.isSelected());
-        checkBoxes.put("rivalKeepStarter", rivalKeepStarter.isSelected());
-        checkBoxes.put("rivalStarterEvolves", rivalStarterEvolves.isSelected());
-        checkBoxes.put("randomiseStarters", randomiseStarters.isSelected());
-        checkBoxes.put("randomiseTrades", randomiseTrades.isSelected());
-        checkBoxes.put("randomiseGifts", randomiseGifts.isSelected());
-        checkBoxes.put("randomiseGameCorner", randomiseGameCorner.isSelected());
-        checkBoxes.put("learnHMs", learnHMs.isSelected());
-        checkBoxes.put("gen1", gen1.isSelected());
-        checkBoxes.put("gen2", gen2.isSelected());
-        checkBoxes.put("gen3", gen3.isSelected());
-        checkBoxes.put("gen4", gen4.isSelected());
-        checkBoxes.put("gen5", gen5.isSelected());
-        checkBoxes.put("gen6", gen6.isSelected());
-        checkBoxes.put("gen7", gen7.isSelected());
-        checkBoxes.put("gen8", gen8.isSelected());
-        checkBoxes.put("regionalForms", regionalForms.isSelected());
-        checkBoxes.put("hgssMusic", hgssMusic.isSelected());
-        checkBoxes.put("overworldSprites", overworldSprites.isSelected());
-        checkBoxes.forEach((key, value) -> {
-            System.out.println(key + value);
-        });
+        Node root = ((Node) event.getTarget()).getScene().getRoot();
+
+        for (Node checkBox : root.lookupAll("CheckBox")) {
+            checkBoxes.put(checkBox.getId(), ((CheckBox) checkBox).isSelected());
+        }
 
         // Randomiser.run(checkBoxes, gamemodeName.getText(), seed.getText());
     }
