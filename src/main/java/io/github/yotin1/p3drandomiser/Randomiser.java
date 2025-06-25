@@ -17,6 +17,7 @@ import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
 
+import io.github.yotin1.p3drandomiser.wildpokemon.LegendaryEncounters;
 import io.github.yotin1.p3drandomiser.wildpokemon.StaticEncounters;
 import io.github.yotin1.p3drandomiser.wildpokemon.WildMap;
 
@@ -31,6 +32,10 @@ public final class Randomiser {
     private static Random random = new Random();
 
     public Randomiser() {
+    }
+
+    public static Map<String, Boolean> getCheckBoxes() {
+        return Randomiser.checkBoxes;
     }
 
     /**
@@ -48,67 +53,36 @@ public final class Randomiser {
         Set<String> regions = new HashSet<String>(
                 Set.of("alola", "galar"));
 
+        if (!Randomiser.checkBoxes.get("regionalForms")) {
+            ignoreSuffix.addAll(regions);
+        }
+
         Set<String> legendaries = LegendaryPokemon.getMap().keySet();
 
         try {
             Files.list(directory.resolve("Content\\Pokemon\\Data"))
                     .filter(file -> !file.toFile().isDirectory())
                     .forEach(file -> {
+
                         int num = Integer.parseInt(
                                 StringUtils.getDigits(StringUtils.substringBefore(file.getFileName().toString(), "_")));
+
                         String suffix = StringUtils.substringBetween(file.getFileName().toString(), "_", ".dat");
                         // suffixes.add(suffix);
+                        List<String> selectedList = (legendaries.contains(String.valueOf(num)) ? legendaryList
+                                : normalList);
+
                         if (!ignoreSuffix.contains(suffix)) {
-                            if (!regions.contains(suffix) || Randomiser.checkBoxes.get("regionalForms")) {
-                                if (1 <= num && num <= 151 && Randomiser.checkBoxes.get("gen1")) {
-                                    if (legendaries.contains(String.valueOf(num))) {
-                                        legendaryList.add(StringUtils.remove(file.getFileName().toString(), ".dat"));
-                                    } else {
-                                        normalList.add(StringUtils.remove(file.getFileName().toString(), ".dat"));
-                                    }
-                                } else if (152 <= num && num <= 251 && Randomiser.checkBoxes.get("gen2")) {
-                                    if (legendaries.contains(String.valueOf(num))) {
-                                        legendaryList.add(StringUtils.remove(file.getFileName().toString(), ".dat"));
-                                    } else {
-                                        normalList.add(StringUtils.remove(file.getFileName().toString(), ".dat"));
-                                    }
-                                } else if (252 <= num && num <= 386 && Randomiser.checkBoxes.get("gen3")) {
-                                    if (legendaries.contains(String.valueOf(num))) {
-                                        legendaryList.add(StringUtils.remove(file.getFileName().toString(), ".dat"));
-                                    } else {
-                                        normalList.add(StringUtils.remove(file.getFileName().toString(), ".dat"));
-                                    }
-                                } else if (387 <= num && num <= 493 && Randomiser.checkBoxes.get("gen4")) {
-                                    if (legendaries.contains(String.valueOf(num))) {
-                                        legendaryList.add(StringUtils.remove(file.getFileName().toString(), ".dat"));
-                                    } else {
-                                        normalList.add(StringUtils.remove(file.getFileName().toString(), ".dat"));
-                                    }
-                                } else if (494 <= num && num <= 649 && Randomiser.checkBoxes.get("gen5")) {
-                                    if (legendaries.contains(String.valueOf(num))) {
-                                        legendaryList.add(StringUtils.remove(file.getFileName().toString(), ".dat"));
-                                    } else {
-                                        normalList.add(StringUtils.remove(file.getFileName().toString(), ".dat"));
-                                    }
-                                } else if (650 <= num && num <= 721 && Randomiser.checkBoxes.get("gen6")) {
-                                    if (legendaries.contains(String.valueOf(num))) {
-                                        legendaryList.add(StringUtils.remove(file.getFileName().toString(), ".dat"));
-                                    } else {
-                                        normalList.add(StringUtils.remove(file.getFileName().toString(), ".dat"));
-                                    }
-                                } else if (722 <= num && num <= 809 && Randomiser.checkBoxes.get("gen7")) {
-                                    if (legendaries.contains(String.valueOf(num))) {
-                                        legendaryList.add(StringUtils.remove(file.getFileName().toString(), ".dat"));
-                                    } else {
-                                        normalList.add(StringUtils.remove(file.getFileName().toString(), ".dat"));
-                                    }
-                                } else if (810 <= num && num <= 905 && Randomiser.checkBoxes.get("gen8")) {
-                                    if (legendaries.contains(String.valueOf(num))) {
-                                        legendaryList.add(StringUtils.remove(file.getFileName().toString(), ".dat"));
-                                    } else {
-                                        normalList.add(StringUtils.remove(file.getFileName().toString(), ".dat"));
-                                    }
-                                }
+
+                            if ((1 <= num && num <= 151 && Randomiser.checkBoxes.get("gen1"))
+                                    || (152 <= num && num <= 251 && Randomiser.checkBoxes.get("gen2"))
+                                    || (252 <= num && num <= 386 && Randomiser.checkBoxes.get("gen3"))
+                                    || (387 <= num && num <= 493 && Randomiser.checkBoxes.get("gen4"))
+                                    || (494 <= num && num <= 649 && Randomiser.checkBoxes.get("gen5"))
+                                    || (650 <= num && num <= 721 && Randomiser.checkBoxes.get("gen6"))
+                                    || (722 <= num && num <= 809 && Randomiser.checkBoxes.get("gen7"))
+                                    || (810 <= num && num <= 905 && Randomiser.checkBoxes.get("gen8"))) {
+                                selectedList.add(StringUtils.remove(file.getFileName().toString(), ".dat"));
                             }
                         }
                     });
@@ -173,7 +147,8 @@ public final class Randomiser {
         // encounter.randomise();
         // }
 
-        System.out.println(LegendaryPokemon.getMap().keySet());
+        // LegendaryEncounters.MEWTWO.randomiseScript();
+        StaticEncounters.SCIZOR.randomiseScript();
     }
 
     public static void main(String[] args) {
