@@ -32,6 +32,7 @@ public class P3DFile {
 
         try {
             byte[] dataAsBytes = Files.readAllBytes(Randomiser.directory.resolve(this.path));
+
             if (dataAsBytes[0] == (byte) -2 && dataAsBytes[1] == (byte) -1) {
                 this.charset = StandardCharsets.UTF_16BE;
             } else if (dataAsBytes[0] == (byte) -1 && dataAsBytes[1] == (byte) -2) {
@@ -39,6 +40,7 @@ public class P3DFile {
             } else {
                 this.charset = StandardCharsets.UTF_8;
             }
+
             this.data = Files.readAllLines(Randomiser.directory.resolve(this.path), this.charset);
         } catch (IOException e) {
             e.printStackTrace();
@@ -59,6 +61,18 @@ public class P3DFile {
 
     public void setData(List<String> data) {
         this.data = data;
+    }
+
+    public void setData(int index, String data) {
+        this.data.set(index, data);
+    }
+
+    public void addDataElement(int index, String data) {
+        this.data.add(index, data);
+    }
+
+    public void removeDataElement(int index) {
+        this.data.remove(index);
     }
 
     public static void writeFile(List<String> data, Path targetPath, Charset charset) {
@@ -97,15 +111,16 @@ public class P3DFile {
         String oldName = new Pokemon(oldId).getName();
         String newName = new Pokemon(newId).getName();
         List<String> vowels = new ArrayList<String>(Arrays.asList("A", "E", "I", "O", "U"));
+        String[] anArray = new String[] { "An " + newName, "An*" + newName, "An~" + newName, "an " + newName,
+                "an*" + newName, "an~" + newName };
+        String[] aArray = new String[] { "A " + newName, "A*" + newName, "A~" + newName, "a " + newName,
+                "a*" + newName, "a~" + newName };
 
-        if (vowels.contains(String.valueOf(newName.charAt(0)))) {
-            text = StringUtils.replace(text, "a " + oldName, "an " + newName);
-            text = StringUtils.replace(text, "A " + oldName, "An " + newName);
-        } else {
-            text = StringUtils.replace(text, "an " + oldName, "a " + newName);
-            text = StringUtils.replace(text, "An " + oldName, "A " + newName);
-        }
         text = StringUtils.replace(text, oldName, newName);
+        text = (vowels.contains(String.valueOf(newName.charAt(0)))
+                ? StringUtils.replaceEach(text, aArray, anArray)
+                : StringUtils.replaceEach(text, anArray, aArray));
+
         return text;
     }
 
@@ -180,5 +195,11 @@ public class P3DFile {
         tradeList.forEach(entry -> System.out.println(entry));
         System.out.println("\nGift");
         giftList.forEach(entry -> System.out.println(entry));
+    }
+
+    @Override
+    public String toString() {
+
+        return StringUtils.join(data, "\n");
     }
 }
