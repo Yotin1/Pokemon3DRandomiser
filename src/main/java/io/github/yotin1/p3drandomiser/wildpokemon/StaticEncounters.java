@@ -34,7 +34,7 @@ public enum StaticEncounters {
 
                                 if (StringUtils.containsIgnoreCase(prefix, "@pokemon.cry")
                                         || StringUtils.containsIgnoreCase(prefix, "@battle.wild")) {
-                                    String[] values = StringUtils.split(file.getCommand(index), ",");
+                                    String[] values = StringUtils.splitPreserveAllTokens(file.getCommand(index), ",");
                                     values[0] = this.newId.get(this.newId.size() - 1);
                                     file.replaceCommand(index, StringUtils.join(values, ","));
                                 }
@@ -84,7 +84,7 @@ public enum StaticEncounters {
                                 String line = file.getData().get(index);
                                 String prefix = StringUtils.substringBefore(line, "(");
                                 if (StringUtils.containsIgnoreCase(prefix, "@storage.set")) {
-                                    String[] command = StringUtils.split(file.getCommand(index), ",");
+                                    String[] command = StringUtils.splitPreserveAllTokens(file.getCommand(index), ",");
                                     if (command != null) {
                                         if (Pattern.matches("grottopokemon[1-4]", command[1])) {
                                             command[2] = Randomiser.getRandomPokemon();
@@ -124,7 +124,7 @@ public enum StaticEncounters {
 
                                 if (StringUtils.containsIgnoreCase(prefix, "@pokemon.cry")
                                         || StringUtils.containsIgnoreCase(prefix, "@battle.wild")) {
-                                    String[] values = StringUtils.split(file.getCommand(index), ",");
+                                    String[] values = StringUtils.splitPreserveAllTokens(file.getCommand(index), ",");
                                     values[0] = this.newId.get(this.newId.size() - 1);
                                     file.replaceCommand(index, StringUtils.join(values, ","));
                                 }
@@ -170,11 +170,13 @@ public enum StaticEncounters {
 
                 if (StringUtils.containsIgnoreCase(prefix, "@pokemon.cry")) {
                     newId = Randomiser.getRandomPokemon();
-                    String[] values = StringUtils.split(StaticEncounters.ROCKET_BASE.scriptFile.getCommand(index), ",");
+                    String[] values = StringUtils
+                            .splitPreserveAllTokens(StaticEncounters.ROCKET_BASE.scriptFile.getCommand(index), ",");
                     values[0] = newId;
                     StaticEncounters.ROCKET_BASE.scriptFile.replaceCommand(index, StringUtils.join(values, ","));
                     index++;
-                    values = StringUtils.split(StaticEncounters.ROCKET_BASE.scriptFile.getCommand(index), ",");
+                    values = StringUtils
+                            .splitPreserveAllTokens(StaticEncounters.ROCKET_BASE.scriptFile.getCommand(index), ",");
                     values[0] = newId;
                     StaticEncounters.ROCKET_BASE.scriptFile.replaceCommand(index, StringUtils.join(values, ","));
                 }
@@ -203,7 +205,7 @@ public enum StaticEncounters {
 
                                 if (StringUtils.containsIgnoreCase(prefix, "@pokemon.cry")
                                         || StringUtils.containsIgnoreCase(prefix, "@battle.wild")) {
-                                    String[] values = StringUtils.split(file.getCommand(index), ",");
+                                    String[] values = StringUtils.splitPreserveAllTokens(file.getCommand(index), ",");
                                     values[0] = StaticEncounters.SCIZOR.newId;
                                     file.replaceCommand(index, StringUtils.join(values, ","));
                                 }
@@ -231,7 +233,8 @@ public enum StaticEncounters {
 
                 if (StringUtils.containsIgnoreCase(prefix, "@pokemon.cry")
                         || StringUtils.containsIgnoreCase(prefix, "@battle.wild")) {
-                    String[] values = StringUtils.split(StaticEncounters.SNORLAX.scriptFile.getCommand(index), ",");
+                    String[] values = StringUtils
+                            .splitPreserveAllTokens(StaticEncounters.SNORLAX.scriptFile.getCommand(index), ",");
                     values[0] = StaticEncounters.SNORLAX.newId;
                     StaticEncounters.SNORLAX.scriptFile.replaceCommand(index, StringUtils.join(values, ","));
                 }
@@ -247,9 +250,9 @@ public enum StaticEncounters {
     };
 
     private final String id;
-
     private P3DFile scriptFile;
     private P3DMap mapFile;
+
     private String newId;
 
     StaticEncounters(String scriptPath, String mapPath, String id) {
@@ -291,7 +294,7 @@ public enum StaticEncounters {
 
                 if (StringUtils.containsIgnoreCase(prefix, "@pokemon.cry")
                         || StringUtils.containsIgnoreCase(prefix, "@battle.wild")) {
-                    String[] values = StringUtils.split(this.scriptFile.getCommand(index), ",");
+                    String[] values = StringUtils.splitPreserveAllTokens(this.scriptFile.getCommand(index), ",");
                     values[0] = newId;
                     this.scriptFile.replaceCommand(index, StringUtils.join(values, ","));
                 }
@@ -302,6 +305,10 @@ public enum StaticEncounters {
             }
             P3DFile.writeFile(this.scriptFile.getData(), this.scriptFile.getPath(), this.scriptFile.getCharset());
         }
+    }
+
+    // ? Will implement later
+    private void changeMusic() {
     }
 
     public void randomiseMap() {

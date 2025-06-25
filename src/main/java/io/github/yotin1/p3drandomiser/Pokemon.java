@@ -25,7 +25,7 @@ public class Pokemon extends P3DFile {
 
         for (String property : this.data) {
 
-            String[] propertyArray = StringUtils.split(property, "|");
+            String[] propertyArray = StringUtils.splitPreserveAllTokens(property, "|");
 
             if (propertyArray.length > 1) {
                 switch (propertyArray[0]) {
@@ -47,7 +47,7 @@ public class Pokemon extends P3DFile {
                         break;
 
                     case "Machines":
-                        this.machines.addAll(Arrays.asList(StringUtils.split(propertyArray[1], ",")));
+                        this.machines.addAll(Arrays.asList(StringUtils.splitPreserveAllTokens(propertyArray[1], ",")));
                         break;
                 }
             }

@@ -18,7 +18,7 @@ public class WildMap extends P3DFile {
         super(path);
 
         for (String row : this.data) {
-            String[] rowAsArray = StringUtils.split(row, "{|}");
+            String[] rowAsArray = StringUtils.splitPreserveAllTokens(row, "{|}");
             this.encounters.add(rowAsArray);
         }
     }
