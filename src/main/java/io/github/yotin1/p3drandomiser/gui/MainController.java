@@ -16,6 +16,12 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.stage.DirectoryChooser;
 
+/**
+ * An object representing the gui controller. Contains methods for
+ * controlling active elements, as well as initialising the randomisation
+ * process.
+ *
+ */
 public class MainController {
 
     // private String node = "io.github.yotin1.p3drandomiser.gui.MainController";

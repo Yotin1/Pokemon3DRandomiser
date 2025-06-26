@@ -9,6 +9,11 @@ import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
 
+/**
+ * An object representing a Pokemon data file. Also contains methods for
+ * editing the Pokemon data.
+ *
+ */
 public class Pokemon extends P3DFile {
 
     private String id;

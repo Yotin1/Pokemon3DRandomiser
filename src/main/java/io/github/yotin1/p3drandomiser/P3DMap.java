@@ -4,6 +4,11 @@ import java.nio.file.Path;
 
 import org.apache.commons.lang3.StringUtils;
 
+/**
+ * An object representing a map file. Also contains methods for
+ * editing the map data.
+ *
+ */
 public class P3DMap extends P3DFile {
 
     private String music;

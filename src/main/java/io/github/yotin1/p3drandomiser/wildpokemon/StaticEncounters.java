@@ -13,6 +13,12 @@ import io.github.yotin1.p3drandomiser.P3DFile;
 import io.github.yotin1.p3drandomiser.P3DMap;
 import io.github.yotin1.p3drandomiser.Randomiser;
 
+/**
+ * An enumeration object contaning data of normal static encounters. Also
+ * contains methods for
+ * randomising the script and map files of each encounter.
+ *
+ */
 public enum StaticEncounters {
 
     UNOWN(null, "alph\\alph03.dat", "201") {

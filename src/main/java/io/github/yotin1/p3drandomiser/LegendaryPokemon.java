@@ -3,6 +3,10 @@ package io.github.yotin1.p3drandomiser;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * An enumeration object contaning data of all legendary Pokemon.
+ *
+ */
 public enum LegendaryPokemon {
 
     ARTICUNO("144", null, "gen1_legend_battle"),

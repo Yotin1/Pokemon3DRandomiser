@@ -16,6 +16,12 @@ import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
 
+/**
+ * An object representing a game file. Contains methods for
+ * reading/writing files, as well as helper methods for changing the file
+ * contents.
+ *
+ */
 public class P3DFile {
 
     protected Path path;

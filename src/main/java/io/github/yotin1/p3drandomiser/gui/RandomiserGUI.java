@@ -9,7 +9,8 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 /**
- * JavaFX App
+ * An object representing the gui launcher.
+ *
  */
 public class RandomiserGUI extends Application {
 

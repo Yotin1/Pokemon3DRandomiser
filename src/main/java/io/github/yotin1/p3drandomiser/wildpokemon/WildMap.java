@@ -9,6 +9,11 @@ import org.apache.commons.lang3.StringUtils;
 import io.github.yotin1.p3drandomiser.P3DFile;
 import io.github.yotin1.p3drandomiser.Randomiser;
 
+/**
+ * An object representing a wild encounter file. Also contains methods for
+ * randomising the encounter data in the file.
+ *
+ */
 public class WildMap extends P3DFile {
 
     private List<String[]> encounters = new ArrayList<String[]>();

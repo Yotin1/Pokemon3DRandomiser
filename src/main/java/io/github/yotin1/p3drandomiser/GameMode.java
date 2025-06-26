@@ -7,6 +7,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
+/**
+ * An object containing methods for generating a GameMode.dat file.
+ *
+ */
 public class GameMode {
 
     private static String name = "test";
@@ -52,6 +56,10 @@ public class GameMode {
         build();
     }
 
+    /**
+     * Builds the GameMode.dat file.
+     *
+     */
     private void build() {
 
         List<String> datFile = new ArrayList<String>();

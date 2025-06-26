@@ -21,6 +21,10 @@ import io.github.yotin1.p3drandomiser.wildpokemon.LegendaryEncounters;
 import io.github.yotin1.p3drandomiser.wildpokemon.StaticEncounters;
 import io.github.yotin1.p3drandomiser.wildpokemon.WildMap;
 
+/**
+ * An object containing methods for randomising the game files.
+ *
+ */
 public final class Randomiser {
 
     public static Path directory;
@@ -39,10 +43,10 @@ public final class Randomiser {
     }
 
     /**
-     * Populates the pokeList with Pokémon names from the specified directory,
-     * filtering by generation and/or regional forms.
+     * Populates two lists with all available Pokemon in the game directory based on
+     * if they're legendary or not, filtering based on enabled generations/regional
+     * forms.
      *
-     * @param generations Set of generation numbers to include.
      */
     private static void setRandomRange() {
 
@@ -92,9 +96,9 @@ public final class Randomiser {
     }
 
     /**
-     * Returns a random Pokémon from the list of available Pokémon.
+     * Returns a random Pokémon from either list of normal/legendary Pokemon.
      *
-     * @return A random Pokémon name as a String.
+     * @return A random Pokémon id as a String.
      */
     public static String getRandomPokemon() {
         int randomNum = random.nextInt(normalList.size() + legendaryList.size());
@@ -105,14 +109,28 @@ public final class Randomiser {
         }
     }
 
+    /**
+     * Returns a random Pokémon from a list of normal Pokemon.
+     *
+     * @return A random, normal Pokémon id as a String.
+     */
     public static String getRandomNormalPokemon() {
         return normalList.get(random.nextInt(normalList.size()));
     }
 
+    /**
+     * Returns a random Pokémon from a list of legendary Pokemon.
+     *
+     * @return A random, legendary Pokémon id as a String.
+     */
     public static String getRandomLegendaryPokemon() {
         return normalList.get(random.nextInt(legendaryList.size()));
     }
 
+    /**
+     * Randomises all wild encounters in the game files.
+     *
+     */
     private static void randomiseWild() {
 
         Path wildDirectory = directory.resolve("Content\\Data\\maps\\poke");
@@ -129,6 +147,10 @@ public final class Randomiser {
         }
     }
 
+    /**
+     * Runs the randomisation process.
+     *
+     */
     public static void run(Map<String, Boolean> checkBoxes, String gamemodeName, String seed, String directory) {
 
         Randomiser.checkBoxes = checkBoxes;
