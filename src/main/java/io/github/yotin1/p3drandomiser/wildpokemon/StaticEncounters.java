@@ -2,6 +2,7 @@ package io.github.yotin1.p3drandomiser.wildpokemon;
 
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -32,19 +33,23 @@ public enum StaticEncounters {
                 Files.walk(Randomiser.directory.resolve("Content\\Data\\Scripts\\alph\\unown"))
                         .filter(path -> !path.toFile().isDirectory())
                         .forEach(path -> {
+
                             P3DFile file = new P3DFile(path);
                             this.newId.add(Randomiser.getRandomPokemon());
+
                             for (int index = 0; index < file.getData().size(); index++) {
                                 String line = file.getData().get(index);
                                 String prefix = StringUtils.substringBefore(line, "(");
 
                                 if (StringUtils.containsIgnoreCase(prefix, "@pokemon.cry")
                                         || StringUtils.containsIgnoreCase(prefix, "@battle.wild")) {
+
                                     String[] values = StringUtils.splitPreserveAllTokens(file.getCommand(index), ",");
                                     values[0] = this.newId.get(this.newId.size() - 1);
                                     file.replaceCommand(index, StringUtils.join(values, ","));
                                 }
                             }
+
                             P3DFile.writeFile(file.getData(), file.getPath(), file.getCharset());
                         });
             } catch (IOException e) {
@@ -61,16 +66,19 @@ public enum StaticEncounters {
                             "str[alph\\unown\\5]", "str[alph\\unown\\6]", "str[alph\\unown\\7]",
                             "str[alph\\unown\\8]"));
             int count = 0;
+
             for (int index = 0; index < this.mapFile.getData().size(); index++) {
+
                 if (attributeFormatted
                         .contains(this.mapFile.findAttribute(index, "AdditionalValue"))) {
+
                     this.mapFile.replaceAttribute(index, "TextureID",
-                            StringUtils.replace(this.mapFile.findAttribute(index, "TextureID"),
-                                    this.id,
+                            StringUtils.replace(this.mapFile.findAttribute(index, "TextureID"), this.id,
                                     this.newId.get(count)));
                     count++;
                 }
             }
+
             P3DFile.writeFile(this.mapFile.getData(), this.mapFile.getPath(),
                     this.mapFile.getCharset());
         }
@@ -250,7 +258,40 @@ public enum StaticEncounters {
         }
     },
 
-    LAPRAS("unioncave\\lapras.dat", "unioncave\\unioncavebf2.dat", "131"),
+    LAPRAS("unioncave\\lapras.dat", "unioncave\\unioncavebf2.dat", "131") {
+
+        @Override
+        public void randomise() {
+
+            this.randomiseScript();
+            this.randomiseMap();
+
+            P3DFile addtionalFile = new P3DFile(Paths.get("Content\\Data\\Scripts\\unioncave\\Friday2.dat"));
+
+            for (int index = 0; index < addtionalFile.getData().size(); index++) {
+
+                String line = addtionalFile.getData().get(index);
+                String prefix = StringUtils.substringBefore(line, "(");
+
+                if (StringUtils.containsIgnoreCase(prefix, "@npc.wearskin")) {
+
+                    String[] values = StringUtils.splitPreserveAllTokens(addtionalFile.getCommand(index), ",");
+                    values[1] = StringUtils.replace(values[1], this.id, this.newId);
+                    addtionalFile.replaceCommand(index, StringUtils.join(values, ","));
+                }
+
+                if (StringUtils.containsIgnoreCase(prefix, "@pokemon.cry")) {
+
+                    String[] values = StringUtils.splitPreserveAllTokens(addtionalFile.getCommand(index), ",");
+                    values[0] = newId;
+                    addtionalFile.replaceCommand(index, StringUtils.join(values, ","));
+                }
+            }
+
+            P3DFile.writeFile(addtionalFile.getData(), addtionalFile.getPath(), addtionalFile.getCharset());
+        }
+    },
+
     SNORLAX("vermilion\\snorlax.dat", null, "143") {
 
         public void randomiseScript() {
