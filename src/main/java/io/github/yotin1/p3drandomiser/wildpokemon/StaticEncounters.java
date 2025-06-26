@@ -23,7 +23,7 @@ public enum StaticEncounters {
 
     UNOWN(null, "alph\\alph03.dat", "201") {
 
-        List<String> newId = new ArrayList<String>();
+        protected List<String> newId = new ArrayList<String>();
 
         @Override
         public void randomiseScript() {
@@ -61,18 +61,18 @@ public enum StaticEncounters {
                             "str[alph\\unown\\5]", "str[alph\\unown\\6]", "str[alph\\unown\\7]",
                             "str[alph\\unown\\8]"));
             int count = 0;
-            for (int index = 0; index < StaticEncounters.UNOWN.mapFile.getData().size(); index++) {
+            for (int index = 0; index < this.mapFile.getData().size(); index++) {
                 if (attributeFormatted
-                        .contains(StaticEncounters.UNOWN.mapFile.findAttribute(index, "AdditionalValue"))) {
-                    StaticEncounters.UNOWN.mapFile.replaceAttribute(index, "TextureID",
-                            StringUtils.replace(StaticEncounters.UNOWN.mapFile.findAttribute(index, "TextureID"),
-                                    StaticEncounters.UNOWN.id,
-                                    newId.get(count)));
+                        .contains(this.mapFile.findAttribute(index, "AdditionalValue"))) {
+                    this.mapFile.replaceAttribute(index, "TextureID",
+                            StringUtils.replace(this.mapFile.findAttribute(index, "TextureID"),
+                                    this.id,
+                                    this.newId.get(count)));
                     count++;
                 }
             }
-            P3DFile.writeFile(StaticEncounters.UNOWN.mapFile.getData(), StaticEncounters.UNOWN.mapFile.getPath(),
-                    StaticEncounters.UNOWN.mapFile.getCharset());
+            P3DFile.writeFile(this.mapFile.getData(), this.mapFile.getPath(),
+                    this.mapFile.getCharset());
         }
     },
 
@@ -84,21 +84,27 @@ public enum StaticEncounters {
                 Files.walk(Randomiser.directory.resolve("Content\\Data\\Scripts\\hiddengrotto\\getlists"))
                         .filter(path -> !path.toFile().isDirectory())
                         .forEach(path -> {
+
                             P3DFile file = new P3DFile(path);
-                            System.out.println(file.getData());
+
                             for (int index = 0; index < file.getData().size(); index++) {
+
                                 String line = file.getData().get(index);
                                 String prefix = StringUtils.substringBefore(line, "(");
+
                                 if (StringUtils.containsIgnoreCase(prefix, "@storage.set")) {
                                     String[] command = StringUtils.splitPreserveAllTokens(file.getCommand(index), ",");
+
                                     if (command != null) {
                                         if (Pattern.matches("grottopokemon[1-4]", command[1])) {
+
                                             command[2] = Randomiser.getRandomPokemon();
                                             file.replaceCommand(index, StringUtils.join(command, ","));
                                         }
                                     }
                                 }
                             }
+
                             P3DFile.writeFile(file.getData(), file.getPath(), file.getCharset());
                         });
             } catch (IOException e) {
@@ -113,7 +119,7 @@ public enum StaticEncounters {
 
     ELECTRODE(null, "rocketbase\\rocketbase2.dat", "101") {
 
-        List<String> newId = new ArrayList<String>();
+        protected List<String> newId = new ArrayList<String>();
 
         @Override
         public void randomiseScript() {
@@ -122,19 +128,24 @@ public enum StaticEncounters {
                 Files.walk(Randomiser.directory.resolve("Content\\Data\\Scripts\\rocketbase"))
                         .filter(path -> Pattern.matches("elec\\d.dat", path.getFileName().toString()))
                         .forEach(path -> {
+
                             P3DFile file = new P3DFile(path);
                             this.newId.add(Randomiser.getRandomPokemon());
+
                             for (int index = 0; index < file.getData().size(); index++) {
+
                                 String line = file.getData().get(index);
                                 String prefix = StringUtils.substringBefore(line, "(");
 
                                 if (StringUtils.containsIgnoreCase(prefix, "@pokemon.cry")
                                         || StringUtils.containsIgnoreCase(prefix, "@battle.wild")) {
+
                                     String[] values = StringUtils.splitPreserveAllTokens(file.getCommand(index), ",");
                                     values[0] = this.newId.get(this.newId.size() - 1);
                                     file.replaceCommand(index, StringUtils.join(values, ","));
                                 }
                             }
+
                             P3DFile.writeFile(file.getData(), file.getPath(), file.getCharset());
                         });
             } catch (IOException e) {
@@ -148,18 +159,21 @@ public enum StaticEncounters {
             List<String> attributeFormatted = new ArrayList<String>(
                     Arrays.asList("str[rocketbase\\elec1]", "str[rocketbase\\elec2]", "str[rocketbase\\elec3]"));
             int count = 0;
-            for (int index = 0; index < StaticEncounters.ELECTRODE.mapFile.getData().size(); index++) {
+
+            for (int index = 0; index < this.mapFile.getData().size(); index++) {
+
                 if (attributeFormatted
-                        .contains(StaticEncounters.ELECTRODE.mapFile.findAttribute(index, "AdditionalValue"))) {
-                    StaticEncounters.ELECTRODE.mapFile.replaceAttribute(index, "TextureID",
-                            StringUtils.replace(StaticEncounters.ELECTRODE.mapFile.findAttribute(index, "TextureID"),
-                                    StaticEncounters.ELECTRODE.id,
+                        .contains(this.mapFile.findAttribute(index, "AdditionalValue"))) {
+
+                    this.mapFile.replaceAttribute(index, "TextureID",
+                            StringUtils.replace(this.mapFile.findAttribute(index, "TextureID"),
+                                    this.id,
                                     newId.get(count)));
                     count++;
                 }
             }
-            P3DFile.writeFile(StaticEncounters.ELECTRODE.mapFile.getData(),
-                    StaticEncounters.ELECTRODE.mapFile.getPath(), StaticEncounters.ELECTRODE.mapFile.getCharset());
+
+            P3DFile.writeFile(this.mapFile.getData(), this.mapFile.getPath(), this.mapFile.getCharset());
         }
     },
 
@@ -170,26 +184,27 @@ public enum StaticEncounters {
 
             String newId;
 
-            for (int index = 0; index < StaticEncounters.ROCKET_BASE.scriptFile.getData().size(); index++) {
-                String line = StaticEncounters.ROCKET_BASE.scriptFile.getData().get(index);
+            for (int index = 0; index < this.scriptFile.getData().size(); index++) {
+
+                String line = this.scriptFile.getData().get(index);
                 String prefix = StringUtils.substringBefore(line, "(");
 
                 if (StringUtils.containsIgnoreCase(prefix, "@pokemon.cry")) {
                     newId = Randomiser.getRandomPokemon();
                     String[] values = StringUtils
-                            .splitPreserveAllTokens(StaticEncounters.ROCKET_BASE.scriptFile.getCommand(index), ",");
+                            .splitPreserveAllTokens(this.scriptFile.getCommand(index), ",");
                     values[0] = newId;
-                    StaticEncounters.ROCKET_BASE.scriptFile.replaceCommand(index, StringUtils.join(values, ","));
+                    this.scriptFile.replaceCommand(index, StringUtils.join(values, ","));
                     index++;
+
                     values = StringUtils
-                            .splitPreserveAllTokens(StaticEncounters.ROCKET_BASE.scriptFile.getCommand(index), ",");
+                            .splitPreserveAllTokens(this.scriptFile.getCommand(index), ",");
                     values[0] = newId;
-                    StaticEncounters.ROCKET_BASE.scriptFile.replaceCommand(index, StringUtils.join(values, ","));
+                    this.scriptFile.replaceCommand(index, StringUtils.join(values, ","));
                 }
             }
-            P3DFile.writeFile(StaticEncounters.ROCKET_BASE.scriptFile.getData(),
-                    StaticEncounters.ROCKET_BASE.scriptFile.getPath(),
-                    StaticEncounters.ROCKET_BASE.scriptFile.getCharset());
+
+            P3DFile.writeFile(this.scriptFile.getData(), this.scriptFile.getPath(), this.scriptFile.getCharset());
         }
     },
 
@@ -204,22 +219,29 @@ public enum StaticEncounters {
                 Files.walk(Randomiser.directory.resolve("Content\\Data\\Scripts\\twirl forest\\0"))
                         .filter(path -> !path.toFile().isDirectory())
                         .forEach(path -> {
+
                             P3DFile file = new P3DFile(path);
+
                             for (int index = 0; index < file.getData().size(); index++) {
+
                                 String line = file.getData().get(index);
                                 String prefix = StringUtils.substringBefore(line, "(");
 
                                 if (StringUtils.containsIgnoreCase(prefix, "@pokemon.cry")
                                         || StringUtils.containsIgnoreCase(prefix, "@battle.wild")) {
+
                                     String[] values = StringUtils.splitPreserveAllTokens(file.getCommand(index), ",");
-                                    values[0] = StaticEncounters.SCIZOR.newId;
+                                    values[0] = this.newId;
                                     file.replaceCommand(index, StringUtils.join(values, ","));
                                 }
+
                                 if (StringUtils.containsIgnoreCase(prefix, "@text.show")) {
-                                    file.replaceCommand(index, P3DFile.replaceName(file.getCommand(index),
-                                            StaticEncounters.SCIZOR.id, StaticEncounters.SCIZOR.newId));
+
+                                    file.replaceCommand(index,
+                                            P3DFile.replaceName(file.getCommand(index), this.id, this.newId));
                                 }
                             }
+
                             P3DFile.writeFile(file.getData(), file.getPath(), file.getCharset());
                         });
             } catch (IOException e) {
@@ -234,47 +256,48 @@ public enum StaticEncounters {
         public void randomiseScript() {
 
             for (int index = 0; index < 8; index++) {
-                String line = StaticEncounters.SNORLAX.scriptFile.getData().get(index);
+
+                String line = this.scriptFile.getData().get(index);
                 String prefix = StringUtils.substringBefore(line, "(");
 
                 if (StringUtils.containsIgnoreCase(prefix, "@pokemon.cry")
                         || StringUtils.containsIgnoreCase(prefix, "@battle.wild")) {
+
                     String[] values = StringUtils
-                            .splitPreserveAllTokens(StaticEncounters.SNORLAX.scriptFile.getCommand(index), ",");
-                    values[0] = StaticEncounters.SNORLAX.newId;
-                    StaticEncounters.SNORLAX.scriptFile.replaceCommand(index, StringUtils.join(values, ","));
+                            .splitPreserveAllTokens(this.scriptFile.getCommand(index), ",");
+                    values[0] = this.newId;
+                    this.scriptFile.replaceCommand(index, StringUtils.join(values, ","));
                 }
+
                 if (StringUtils.containsIgnoreCase(prefix, "@text.show")) {
-                    StaticEncounters.SNORLAX.scriptFile.replaceCommand(index,
-                            P3DFile.replaceName(StaticEncounters.SNORLAX.scriptFile.getCommand(index),
-                                    StaticEncounters.SNORLAX.id, StaticEncounters.SNORLAX.newId));
+
+                    this.scriptFile.replaceCommand(index,
+                            P3DFile.replaceName(this.scriptFile.getCommand(index), this.id, this.newId));
                 }
             }
-            P3DFile.writeFile(StaticEncounters.SNORLAX.scriptFile.getData(),
-                    StaticEncounters.SNORLAX.scriptFile.getPath(), StaticEncounters.SNORLAX.scriptFile.getCharset());
+
+            P3DFile.writeFile(this.scriptFile.getData(),
+                    this.scriptFile.getPath(), this.scriptFile.getCharset());
         }
     };
 
-    private final String id;
-    private P3DFile scriptFile;
-    private P3DMap mapFile;
+    protected final String id;
+    protected P3DFile scriptFile;
+    protected P3DMap mapFile;
 
-    private String newId;
+    protected String newId;
 
     StaticEncounters(String scriptPath, String mapPath, String id) {
 
         this.id = id;
 
-        if (scriptPath != null) {
-            this.scriptFile = new P3DFile(Randomiser.directory.resolve("Content\\Data\\Scripts\\" + scriptPath));
-        } else {
-            this.scriptFile = null;
-        }
-        if (mapPath != null) {
-            this.mapFile = new P3DMap(Randomiser.directory.resolve("Content\\Data\\maps\\" + mapPath));
-        } else {
-            this.mapFile = null;
-        }
+        this.scriptFile = (scriptPath != null
+                ? new P3DFile(Randomiser.directory.resolve("Content\\Data\\Scripts\\" + scriptPath))
+                : null);
+
+        this.mapFile = (mapPath != null
+                ? new P3DMap(Randomiser.directory.resolve("Content\\Data\\maps\\" + mapPath))
+                : null);
 
         this.newId = Randomiser.getRandomPokemon();
     }
@@ -294,21 +317,27 @@ public enum StaticEncounters {
     public void randomiseScript() {
 
         if (this.scriptFile != null) {
+
             for (int index = 0; index < this.scriptFile.getData().size(); index++) {
+
                 String line = this.scriptFile.getData().get(index);
                 String prefix = StringUtils.substringBefore(line, "(");
 
                 if (StringUtils.containsIgnoreCase(prefix, "@pokemon.cry")
                         || StringUtils.containsIgnoreCase(prefix, "@battle.wild")) {
+
                     String[] values = StringUtils.splitPreserveAllTokens(this.scriptFile.getCommand(index), ",");
                     values[0] = newId;
                     this.scriptFile.replaceCommand(index, StringUtils.join(values, ","));
                 }
+
                 if (StringUtils.containsIgnoreCase(prefix, "@text.show")) {
+
                     this.scriptFile.replaceCommand(index, P3DFile.replaceName(this.scriptFile.getCommand(index),
                             this.id, this.newId));
                 }
             }
+
             P3DFile.writeFile(this.scriptFile.getData(), this.scriptFile.getPath(), this.scriptFile.getCharset());
         }
     }
@@ -320,16 +349,21 @@ public enum StaticEncounters {
     public void randomiseMap() {
 
         if (this.mapFile != null) {
+
             String attributeFormatted = String.format("str[%s]",
                     StringUtils.removeEnd(
                             this.scriptFile.getPath().subpath(3, this.scriptFile.getPath().getNameCount()).toString(),
                             ".dat"));
+
             for (int index = 0; index < this.mapFile.getData().size(); index++) {
+
                 if (StringUtils.equals(this.mapFile.findAttribute(index, "AdditionalValue"), attributeFormatted)) {
+
                     this.mapFile.replaceAttribute(index, "TextureID",
                             StringUtils.replace(this.mapFile.findAttribute(index, "TextureID"), id, newId));
                 }
             }
+
             P3DFile.writeFile(this.mapFile.getData(), this.mapFile.getPath(), this.mapFile.getCharset());
         }
     }
