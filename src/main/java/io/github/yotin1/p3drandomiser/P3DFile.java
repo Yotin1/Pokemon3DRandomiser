@@ -94,7 +94,27 @@ public class P3DFile {
             }
         }
         try {
-            Files.write(gameModePath, data);
+            Files.write(gameModePath, data, charset);
+        } catch (IOException e) {
+            System.out.println(gameModePath);
+            e.printStackTrace();
+        }
+    }
+
+    public void writeFile() {
+
+        Path gameModePath = Paths.get("GameModes\\" + GameMode.getName()).resolve(this.path);
+
+        if (!Files.exists(gameModePath.getParent())) {
+            try {
+                Files.createDirectories(gameModePath.getParent());
+            } catch (IOException e) {
+                System.out.println(gameModePath);
+                e.printStackTrace();
+            }
+        }
+        try {
+            Files.write(gameModePath, this.data, this.charset);
         } catch (IOException e) {
             System.out.println(gameModePath);
             e.printStackTrace();
@@ -166,17 +186,23 @@ public class P3DFile {
                     .forEach(path -> {
                         P3DMap file = new P3DMap(path);
                         for (int index = 0; index < file.getData().size(); index++) {
+
                             String line = file.getData().get(index);
+
                             if (StringUtils.contains(line, "\"TextureID\"{str[[POKEMON|")) {
-                                String attribute = StringUtils
-                                        .substringBetween(file.findAttribute(index, "AdditionalValue"), "str[", "]");
-                                if (attribute != "") {
-                                    if (Pattern.matches("[a-zA-Z0-9_\\s\\\\]*", attribute)) {
+
+                                String tag = file.getTag(index, "AdditionalValue")[1];
+
+                                if (tag != "") {
+
+                                    if (Pattern.matches("[a-zA-Z0-9_\\s\\\\]*", tag)) {
+
                                         try {
                                             if (staticList
                                                     .contains(Randomiser.directory.resolve("Content\\Data\\Scripts\\"
-                                                            + attribute
+                                                            + tag
                                                             + ".dat"))) {
+
                                                 staticMaps.add(path.toString());
                                             }
                                         } catch (InvalidPathException e) {

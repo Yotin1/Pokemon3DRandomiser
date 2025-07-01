@@ -56,6 +56,6 @@ public class WildMap extends P3DFile {
             }
         }
 
-        writeFile(this.data, this.path, this.charset);
+        writeFile();
     }
 }
