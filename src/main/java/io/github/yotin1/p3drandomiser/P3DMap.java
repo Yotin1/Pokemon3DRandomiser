@@ -18,15 +18,21 @@ public class P3DMap extends P3DFile {
 
     }
 
-    public String findAttribute(int index, String key) {
+    public String[] getTag(int index, String key) {
 
-        return StringUtils.substringBetween(this.data.get(index), String.format("\"%s\"{", key), "}");
+        String tagData = StringUtils.substringBetween(this.data.get(index), String.format("\"%s\"{", key), "}");
+        String dataType = StringUtils.substringBefore(tagData, "[");
+        String dataValue = StringUtils.substringAfter(tagData, "[");
+        dataValue = StringUtils.substringBeforeLast(dataValue, "]");
+
+        return new String[] { dataType, dataValue };
     }
 
-    public void replaceAttribute(int index, String key, String newAttribute) {
+    public void replaceTag(int index, String key, String newTag) {
 
-        String oldAttribute = findAttribute(index, key);
-        this.data.set(index, StringUtils.replace(this.data.get(index), String.format("\"%s\"{%s}", key, oldAttribute),
-                String.format("\"%s\"{%s}", key, newAttribute)));
+        String[] oldTag = getTag(index, key);
+        this.data.set(index,
+                StringUtils.replace(this.data.get(index), String.format("\"%s\"{%s[%s]}", key, oldTag[0], oldTag[1]),
+                        String.format("\"%s\"{%s[%s]}", key, oldTag[0], newTag)));
     }
 }
