@@ -17,7 +17,9 @@ import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
 
+import io.github.yotin1.p3drandomiser.trainers.Trainer;
 import io.github.yotin1.p3drandomiser.wildpokemon.LegendaryEncounters;
+import io.github.yotin1.p3drandomiser.wildpokemon.RoamingEncounters;
 import io.github.yotin1.p3drandomiser.wildpokemon.StaticEncounters;
 import io.github.yotin1.p3drandomiser.wildpokemon.WildMap;
 
@@ -124,7 +126,7 @@ public final class Randomiser {
      * @return A random, legendary Pokémon id as a String.
      */
     public static String getRandomLegendaryPokemon() {
-        return normalList.get(random.nextInt(legendaryList.size()));
+        return legendaryList.get(random.nextInt(legendaryList.size()));
     }
 
     /**
@@ -137,10 +139,54 @@ public final class Randomiser {
 
         try {
             Files.walk(wildDirectory)
-                    .filter(file -> !file.toFile().isDirectory())
+                    .filter(file -> file.toString().endsWith(".poke"))
                     .forEach(file -> {
                         WildMap wildMap = new WildMap(file);
                         wildMap.randomise();
+                    });
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Randomises all trainer battles in the game files.
+     *
+     */
+    private static void randomiseTrainers() {
+
+        Path trainerDirectory = directory.resolve("Content\\Data\\Scripts\\trainer");
+
+        try {
+            Files.walk(trainerDirectory)
+                    .filter(file -> StringUtils.endsWith(file.toString(), ".trainer")
+                            && !StringUtils.startsWith(trainerDirectory.relativize(file).toString(), "frontier"))
+                    .forEach(file -> {
+
+                        Trainer trainer = new Trainer(file);
+
+                        // Replaces battle dialogue with new random Pokemon for Victini encounter
+                        if (file.endsWith("liberty\\inside\\Petrel.trainer") && checkBoxes.get("randomiseStatic")) {
+
+                            Set<String> linesToReplace = new HashSet<String>(
+                                    Arrays.asList("IntroMessage", "OutroMessage", "DefeatMessage"));
+
+                            for (int index = 0; index < trainer.getData().size(); index++) {
+
+                                String[] lineAsArray = StringUtils.splitPreserveAllTokens(trainer.getData().get(index),
+                                        "|");
+
+                                if (linesToReplace.contains(StringUtils.strip(lineAsArray[0]))) {
+
+                                    lineAsArray[1] = P3DFile.replaceName(lineAsArray[1],
+                                            LegendaryEncounters.VICTINI.getId(),
+                                            LegendaryEncounters.VICTINI.getNewId());
+                                    trainer.setData(index, StringUtils.join(lineAsArray, "|"));
+                                }
+                            }
+                        }
+
+                        trainer.randomise();
                     });
         } catch (IOException e) {
             e.printStackTrace();
@@ -159,32 +205,49 @@ public final class Randomiser {
         Randomiser.directory = Paths.get(directory);
 
         setRandomRange();
-        // randomiseWild();
+
+        if (checkBoxes.get("randomiseWild")) {
+            randomiseWild();
+        }
+
+        if (checkBoxes.get("randomiseStatic")) {
+            // for (StaticEncounters encounter : StaticEncounters.values()) {
+            // encounter.randomise();
+            // }
+            for (LegendaryEncounters encounter : LegendaryEncounters.values()) {
+                encounter.randomise();
+            }
+            LegendaryEncounters.randomiseEmbTowerScript();
+        }
+
+        if (checkBoxes.get("randomiseRoaming")) {
+            // for (RoamingEncounters encounter : RoamingEncounters.values()) {
+            // encounter.randomise();
+            // }
+        }
+
+        if (checkBoxes.get("randomiseTrainers")) {
+            randomiseTrainers();
+        }
 
         // new GameMode("test");
 
         // P3DFile.scanFiles();
 
-        // for (StaticEncounters encounter : StaticEncounters.values()) {
-        // encounter.randomise();
-        // }
-
-        // LegendaryEncounters.MEWTWO.randomiseScript();
-        StaticEncounters.SCIZOR.randomiseScript();
     }
 
     public static void main(String[] args) {
 
         Map<String, Boolean> checkBoxes = new HashMap<String, Boolean>();
-        checkBoxes.put("randomiseWild", true);
-        checkBoxes.put("randomiseStatic", false);
+        checkBoxes.put("randomiseWild", false);
+        checkBoxes.put("randomiseStatic", true);
         checkBoxes.put("randomiseRoaming", false);
-        checkBoxes.put("randomiseTrainers", false);
-        checkBoxes.put("rivalKeepStarter", false);
-        checkBoxes.put("rivalStarterEvolves", false);
-        checkBoxes.put("randomiseTrades", false);
-        checkBoxes.put("randomiseGameCorner", false);
-        checkBoxes.put("learnHMs", false);
+        checkBoxes.put("randomiseTrainers", true);
+        checkBoxes.put("rivalKeepStarter", true);
+        checkBoxes.put("rivalStarterEvolves", true);
+        checkBoxes.put("randomiseTrades", true);
+        checkBoxes.put("randomiseGameCorner", true);
+        checkBoxes.put("learnHMs", true);
         checkBoxes.put("gen1", true);
         checkBoxes.put("gen2", true);
         checkBoxes.put("gen3", true);
@@ -194,8 +257,8 @@ public final class Randomiser {
         checkBoxes.put("gen7", true);
         checkBoxes.put("gen8", true);
         checkBoxes.put("regionalForms", true);
-        checkBoxes.put("hgssMusic", false);
-        checkBoxes.put("overworldSprites", false);
+        checkBoxes.put("hgssMusic", true);
+        checkBoxes.put("overworldSprites", true);
         String gamemodeName = "test";
         String directory = "D:\\Program Files\\Pokemon 3D\\0.60 Release";
         run(checkBoxes, gamemodeName, null, directory);
