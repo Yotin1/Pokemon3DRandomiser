@@ -24,7 +24,6 @@ import javafx.stage.DirectoryChooser;
  */
 public class MainController {
 
-    // private String node = "io.github.yotin1.p3drandomiser.gui.MainController";
     private String initialDirectory;
 
     @FXML
@@ -100,12 +99,18 @@ public class MainController {
         saveSettings();
     }
 
+    /**
+     * Saves the loaded game directory
+     */
     protected void saveSettings() {
 
         Preferences settings = Preferences.userRoot().node(this.getClass().getName());
         settings.put("p3DDirectory", initialDirectory);
     }
 
+    /**
+     * Loads the saved game directory
+     */
     protected void loadSettings() {
 
         Preferences settings = Preferences.userRoot().node(this.getClass().getName());
@@ -113,6 +118,10 @@ public class MainController {
         p3DDirectory.setText(initialDirectory);
     }
 
+    /**
+     * Enables/disables the <code>rivalKeepStarter</code> checkbox based on the
+     * state of the <code>randomiseTrainers</code> checkbox
+     */
     @FXML
     protected void trainerCheckBoxes() {
         rivalKeepStarter.setDisable(!randomiseTrainers.isSelected());
@@ -125,6 +134,10 @@ public class MainController {
         }
     }
 
+    /**
+     * Enables/disables the <code>rivalStarterEvolves</code> checkbox based on the
+     * state of the <code>rivalKeepsStarter</code> checkbox
+     */
     @FXML
     protected void enableRivalStarterEvolves() {
         rivalStarterEvolves.setDisable(!rivalKeepStarter.isSelected());
@@ -133,6 +146,9 @@ public class MainController {
         }
     }
 
+    /**
+     * Opens the directory selector window
+     */
     @FXML
     protected void selectDirectory(ActionEvent event) {
 
@@ -148,8 +164,14 @@ public class MainController {
 
     }
 
+    /**
+     * Runs the randomise method
+     * 
+     * @param event the ActionEvent fired when the <code>randomiseBtn</code> is
+     *              clicked
+     */
     @FXML
-    protected void randomise(ActionEvent event) throws IOException {
+    protected void randomise(ActionEvent event) {
 
         Map<String, Boolean> checkBoxes = new HashMap<String, Boolean>();
         Node root = ((Node) event.getTarget()).getScene().getRoot();
