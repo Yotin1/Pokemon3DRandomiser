@@ -12,6 +12,11 @@ import org.apache.commons.lang3.StringUtils;
 import io.github.yotin1.p3drandomiser.P3DFile;
 import io.github.yotin1.p3drandomiser.Randomiser;
 
+/**
+ * An object representing Pokemon trainer battle files. Also
+ * contains methods for randomising the trainers' Pokemon.
+ *
+ */
 public class Trainer extends P3DFile {
 
     private List<String> pokeList = new ArrayList<String>();
@@ -37,6 +42,15 @@ public class Trainer extends P3DFile {
         }
     }
 
+    /**
+     * Finds the attribute and associated value in a particular line of this trainer
+     * data using an index and attribute name.
+     * 
+     * @param index         the line of this trainer data to search
+     * @param attributeName the name of the attribute to search for
+     * @return the full attribute name and associated value or <code>null</code> if
+     *         not found
+     */
     public String getAttribute(int index, String attributeName) {
 
         Pattern pattern = Pattern.compile(String.format("\\{\"%s\"\\[[^\\]]*\\]\\}", attributeName));
@@ -49,6 +63,14 @@ public class Trainer extends P3DFile {
         }
     }
 
+    /**
+     * Replaces the value of an attribute in a particular line of this trainer data
+     * using an index, attribute name and new value.
+     * 
+     * @param index         the line of this trainer data to search
+     * @param attributeName the name of the attribute to replace
+     * @param newValue      replaces the old value of the attribute
+     */
     public void replaceAttribute(int index, String attributeName, String newValue) {
 
         Pattern pattern = Pattern.compile(String.format("\\{\"%s\"\\[[^\\]]*\\]\\}", attributeName));
@@ -57,6 +79,13 @@ public class Trainer extends P3DFile {
         this.pokeList.set(index, matcher.replaceAll(String.format("{\"%s\"[%s]}", attributeName, newValue)));
     }
 
+    /**
+     * Removes the attribute in a particular line of this trainer data using an
+     * index and attribute name.
+     * 
+     * @param index         the line of this trainer data to search
+     * @param attributeName the name of the attribute to remove
+     */
     public void removeAttribute(int index, String attributeName) {
 
         Pattern pattern = Pattern.compile(String.format("\\{\"%s\"\\[[^\\]]*\\]\\}", attributeName));
@@ -65,6 +94,17 @@ public class Trainer extends P3DFile {
         this.pokeList.set(index, matcher.replaceAll(""));
     }
 
+    public void replaceLine(int index, String newValue) {
+
+        String[] lineAsArray = StringUtils.splitPreserveAllTokens(this.data.get(index), "|");
+        lineAsArray[1] = newValue;
+        this.data.set(index, StringUtils.join(lineAsArray, "|"));
+    }
+
+    /**
+     * Replaces each of this trainer's Pokemon with a random one, then saves the new
+     * data as a file into the generated GameMode folder.
+     */
     public void randomise() {
 
         String[] attributesToRemove = new String[] { "Experience", "Ability", "Nature", "Attack1", "Attack2", "Attack3",
@@ -88,8 +128,12 @@ public class Trainer extends P3DFile {
             } else {
 
                 String[] pokemonAsArray = StringUtils.split(pokemon, ",");
-                pokemonAsArray[0] = Randomiser.getRandomPokemon();
-                this.pokeList.set(index, StringUtils.join(pokemonAsArray, ","));
+
+                if (pokemonAsArray.length == 2) {
+
+                    pokemonAsArray[0] = Randomiser.getRandomPokemon();
+                    this.pokeList.set(index, StringUtils.join(pokemonAsArray, ","));
+                }
             }
 
             String[] lineAsArray = StringUtils.split(this.data.get(this.pokeListStartIndex + index), "|");
