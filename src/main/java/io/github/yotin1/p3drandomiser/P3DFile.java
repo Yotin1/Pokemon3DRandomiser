@@ -1,6 +1,8 @@
 package io.github.yotin1.p3drandomiser;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -14,6 +16,9 @@ import java.util.List;
 import java.util.Set;
 import java.util.regex.Pattern;
 
+import org.apache.commons.io.ByteOrderMark;
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.io.input.BOMInputStream;
 import org.apache.commons.lang3.StringUtils;
 
 /**
@@ -37,17 +42,47 @@ public class P3DFile {
         }
 
         try {
-            byte[] dataAsBytes = Files.readAllBytes(Randomiser.directory.resolve(this.path));
+            BOMInputStream bomStream = new BOMInputStream(Files.newInputStream(Randomiser.directory.resolve(this.path)),
+                    true, ByteOrderMark.UTF_8,
+                    ByteOrderMark.UTF_16BE,
+                    ByteOrderMark.UTF_16LE);
 
-            if (dataAsBytes[0] == (byte) -2 && dataAsBytes[1] == (byte) -1) {
-                this.charset = StandardCharsets.UTF_16BE;
-            } else if (dataAsBytes[0] == (byte) -1 && dataAsBytes[1] == (byte) -2) {
-                this.charset = StandardCharsets.UTF_16LE;
-            } else {
-                this.charset = StandardCharsets.UTF_8;
+            // Remove BOM from UTF-8 files
+            if (StringUtils.equals(bomStream.getBOMCharsetName(), "UTF-8")) {
+                bomStream = new BOMInputStream(bomStream);
             }
 
-            this.data = Files.readAllLines(Randomiser.directory.resolve(this.path), this.charset);
+            if (bomStream.getBOMCharsetName() != null) {
+
+                this.charset = Charset.forName(bomStream.getBOMCharsetName());
+                this.data = IOUtils.readLines(bomStream, this.charset);
+
+            } else {
+
+                byte[] byteArray = IOUtils.toByteArray(bomStream);
+                int nonZeroOdd = 0;
+                int nonZeroEven = 0;
+
+                for (int index = 0; index <= Math.min(20, byteArray.length); index++) {
+
+                    if (index % 2 == 0 && byteArray[index] != 0) {
+                        nonZeroEven++;
+                    } else if (index % 2 == 1 && byteArray[index] != 0) {
+                        nonZeroOdd++;
+                    }
+                }
+
+                if (nonZeroEven < 5) {
+                    this.charset = StandardCharsets.UTF_16LE;
+                } else if (nonZeroOdd < 5) {
+                    this.charset = StandardCharsets.UTF_16BE;
+                } else {
+                    this.charset = StandardCharsets.UTF_8;
+                }
+
+                this.data = new ArrayList<String>(
+                        Arrays.asList(StringUtils.split(new String(byteArray, this.charset), System.lineSeparator())));
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -59,6 +94,16 @@ public class P3DFile {
 
     public List<String> getData() {
         return this.data;
+    }
+
+    public String getData(int index) {
+
+        String line = this.data.get(index);
+
+        if (index == 0 && ((byte) line.charAt(0) == -1 || (byte) line.charAt(0) == -2)) {
+            return StringUtils.substring(line, 1);
+        }
+        return this.data.get(index);
     }
 
     public Charset getCharset() {
@@ -187,7 +232,7 @@ public class P3DFile {
                         P3DMap file = new P3DMap(path);
                         for (int index = 0; index < file.getData().size(); index++) {
 
-                            String line = file.getData().get(index);
+                            String line = file.getData(index);
 
                             if (StringUtils.contains(line, "\"TextureID\"{str[[POKEMON|")) {
 

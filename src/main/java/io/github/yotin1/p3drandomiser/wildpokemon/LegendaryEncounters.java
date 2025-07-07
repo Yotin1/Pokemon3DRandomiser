@@ -46,7 +46,7 @@ public enum LegendaryEncounters {
 
             for (int index = 0; index < this.shinyFile.getData().size(); index++) {
 
-                String line = this.shinyFile.getData().get(index);
+                String line = this.shinyFile.getData(index);
                 String prefix = StringUtils.substringBefore(line, "(");
 
                 if (StringUtils.containsIgnoreCase(prefix, "@npc.wearskin")) {
@@ -87,7 +87,7 @@ public enum LegendaryEncounters {
             mapFiles.forEach(file -> {
                 for (int index = 0; index < file.getData().size(); index++) {
 
-                    String line = file.getData().get(index);
+                    String line = file.getData(index);
 
                     if (StringUtils.containsIgnoreCase(line, "NPC[")) {
 
@@ -110,7 +110,7 @@ public enum LegendaryEncounters {
             shinyFiles.forEach(file -> {
                 for (int index = 0; index < file.getData().size(); index++) {
 
-                    String line = file.getData().get(index);
+                    String line = file.getData(index);
                     String prefix = StringUtils.substringBefore(line, "(");
 
                     if (StringUtils.containsIgnoreCase(prefix, "@npc.wearskin")) {
@@ -198,10 +198,10 @@ public enum LegendaryEncounters {
         if (this.scriptFile != null) {
             for (int index = 0; index < this.scriptFile.getData().size(); index++) {
 
-                String line = this.scriptFile.getData().get(index);
+                String line = this.scriptFile.getData(index);
                 String prefix = StringUtils.substringBefore(line, "(");
 
-                if (StringUtils.containsIgnoreCase(this.scriptFile.getData().get(index),
+                if (StringUtils.containsIgnoreCase(this.scriptFile.getData(index),
                         "@battle.setvar(custombattlemusic,") && !musicChanged) {
                     index = changeMusic(index, newMusic);
                     musicChanged = true;
@@ -235,7 +235,7 @@ public enum LegendaryEncounters {
 
     private int changeMusic(int lineNum, String newMusic) {
 
-        if (StringUtils.containsIgnoreCase(this.scriptFile.getData().get(lineNum),
+        if (StringUtils.containsIgnoreCase(this.scriptFile.getData(lineNum),
                 "@battle.setvar(custombattlemusic,")) {
 
             if (newMusic != "") {
@@ -254,7 +254,7 @@ public enum LegendaryEncounters {
 
             this.scriptFile.addDataElement(lineNum,
                     String.format("%s@battle.setvar(custombattlemusic,%s)",
-                            "\t".repeat(StringUtils.indexOfAnyBut(this.scriptFile.getData().get(lineNum), "\t")),
+                            "\t".repeat(StringUtils.indexOfAnyBut(this.scriptFile.getData(lineNum), "\t")),
                             newMusic));
             return lineNum + 1;
         }
@@ -275,7 +275,7 @@ public enum LegendaryEncounters {
 
             for (int index = 0; index < this.mapFile.getData().size(); index++) {
 
-                String line = this.mapFile.getData().get(index);
+                String line = this.mapFile.getData(index);
 
                 if (StringUtils.containsIgnoreCase(line, "NPC[")) {
 
@@ -309,7 +309,7 @@ public enum LegendaryEncounters {
 
             for (int index = 0; index < this.shinyFile.getData().size(); index++) {
 
-                String line = this.shinyFile.getData().get(index);
+                String line = this.shinyFile.getData(index);
                 String prefix = StringUtils.substringBefore(line, "(");
 
                 if (StringUtils.containsIgnoreCase(prefix, "@npc.wearskin")) {
@@ -341,13 +341,13 @@ public enum LegendaryEncounters {
 
         for (int index = 0; index < embTowerScript.getData().size(); index++) {
 
-            if (StringUtils.containsIgnoreCase(embTowerScript.getData().get(index), "<overworldpokemon.id>")) {
+            if (StringUtils.containsIgnoreCase(embTowerScript.getData(index), "<overworldpokemon.id>")) {
 
                 embTowerScript.setData(index,
-                        StringUtils.replace(embTowerScript.getData().get(index), LegendaryEncounters.RESHIRAM.id,
+                        StringUtils.replace(embTowerScript.getData(index), LegendaryEncounters.RESHIRAM.id,
                                 LegendaryEncounters.RESHIRAM.newId));
                 embTowerScript.setData(index,
-                        StringUtils.replace(embTowerScript.getData().get(index), LegendaryEncounters.ZEKROM.id,
+                        StringUtils.replace(embTowerScript.getData(index), LegendaryEncounters.ZEKROM.id,
                                 LegendaryEncounters.ZEKROM.newId));
             }
         }

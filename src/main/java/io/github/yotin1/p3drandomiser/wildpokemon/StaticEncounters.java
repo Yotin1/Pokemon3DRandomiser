@@ -38,7 +38,7 @@ public enum StaticEncounters {
                             this.newId.add(Randomiser.getRandomPokemon());
 
                             for (int index = 0; index < file.getData().size(); index++) {
-                                String line = file.getData().get(index);
+                                String line = file.getData(index);
                                 String prefix = StringUtils.substringBefore(line, "(");
 
                                 if (StringUtils.containsIgnoreCase(prefix, "@pokemon.cry")
@@ -94,7 +94,7 @@ public enum StaticEncounters {
 
                             for (int index = 0; index < file.getData().size(); index++) {
 
-                                String line = file.getData().get(index);
+                                String line = file.getData(index);
                                 String prefix = StringUtils.substringBefore(line, "(");
 
                                 if (StringUtils.containsIgnoreCase(prefix, "@storage.set")) {
@@ -139,7 +139,7 @@ public enum StaticEncounters {
 
                             for (int index = 0; index < file.getData().size(); index++) {
 
-                                String line = file.getData().get(index);
+                                String line = file.getData(index);
                                 String prefix = StringUtils.substringBefore(line, "(");
 
                                 if (StringUtils.containsIgnoreCase(prefix, "@pokemon.cry")
@@ -189,7 +189,7 @@ public enum StaticEncounters {
 
             for (int index = 0; index < this.scriptFile.getData().size(); index++) {
 
-                String line = this.scriptFile.getData().get(index);
+                String line = this.scriptFile.getData(index);
                 String prefix = StringUtils.substringBefore(line, "(");
 
                 if (StringUtils.containsIgnoreCase(prefix, "@pokemon.cry")) {
@@ -227,7 +227,7 @@ public enum StaticEncounters {
 
                             for (int index = 0; index < file.getData().size(); index++) {
 
-                                String line = file.getData().get(index);
+                                String line = file.getData(index);
                                 String prefix = StringUtils.substringBefore(line, "(");
 
                                 if (StringUtils.containsIgnoreCase(prefix, "@pokemon.cry")
@@ -265,7 +265,7 @@ public enum StaticEncounters {
 
             for (int index = 0; index < additionalFile.getData().size(); index++) {
 
-                String line = additionalFile.getData().get(index);
+                String line = additionalFile.getData(index);
                 String prefix = StringUtils.substringBefore(line, "(");
 
                 if (StringUtils.containsIgnoreCase(prefix, "@npc.wearskin")) {
@@ -293,7 +293,7 @@ public enum StaticEncounters {
 
             for (int index = 0; index < 8; index++) {
 
-                String line = this.scriptFile.getData().get(index);
+                String line = this.scriptFile.getData(index);
                 String prefix = StringUtils.substringBefore(line, "(");
 
                 if (StringUtils.containsIgnoreCase(prefix, "@pokemon.cry")
@@ -355,7 +355,7 @@ public enum StaticEncounters {
 
             for (int index = 0; index < this.scriptFile.getData().size(); index++) {
 
-                String line = this.scriptFile.getData().get(index);
+                String line = this.scriptFile.getData(index);
                 String prefix = StringUtils.substringBefore(line, "(");
 
                 if (StringUtils.containsIgnoreCase(prefix, "@pokemon.cry")

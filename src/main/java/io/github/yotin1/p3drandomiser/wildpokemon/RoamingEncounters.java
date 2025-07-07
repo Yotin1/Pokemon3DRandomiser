@@ -46,11 +46,9 @@ public enum RoamingEncounters {
 
 			scriptFiles.forEach(file -> {
 
-				List<String> data = file.getData();
+				for (int index = 0; index < file.getData().size(); index++) {
 
-				for (int index = 0; index < data.size(); index++) {
-
-					String line = data.get(index);
+					String line = file.getData(index);
 
 					if (StringUtils.containsIgnoreCase(line, "@pokemon.newroaming(")) {
 
