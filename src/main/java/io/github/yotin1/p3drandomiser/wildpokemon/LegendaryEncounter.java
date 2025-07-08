@@ -20,7 +20,7 @@ import io.github.yotin1.p3drandomiser.trainers.Trainer;
  * randomising the script and map files of each encounter.
  *
  */
-public enum LegendaryEncounters {
+public enum LegendaryEncounter {
 
     MEWTWO("ceruleancave\\mewtwo.dat", "ceruleancave\\bf1.dat", "ceruleancave\\mewtwonite_x.dat"),
     DIANCIE("diamonddive\\diancie.dat", "diamonddive\\exterior\\end.dat", "diamonddive\\dianciemap.dat"),
@@ -141,7 +141,7 @@ public enum LegendaryEncounters {
     protected String newId;
     protected LegendaryPokemon legendaryData;
 
-    LegendaryEncounters(String scriptPath, String mapPath, String shinyPath) {
+    LegendaryEncounter(String scriptPath, String mapPath, String shinyPath) {
 
         this.id = LegendaryPokemon.valueOf(this.toString()).getId();
 
@@ -317,9 +317,7 @@ public enum LegendaryEncounters {
                     String[] values = StringUtils.splitPreserveAllTokens(this.shinyFile.getCommand(index), ",");
                     values[1] = StringUtils.replace(values[1], this.id, this.newId);
                     this.shinyFile.replaceCommand(index, StringUtils.join(values, ","));
-                }
-
-                if (StringUtils.containsIgnoreCase(prefix, "@pokemon.cry")) {
+                } else if (StringUtils.containsIgnoreCase(prefix, "@pokemon.cry")) {
 
                     String[] values = StringUtils.splitPreserveAllTokens(this.shinyFile.getCommand(index), ",");
                     values[0] = this.newId;
@@ -344,11 +342,11 @@ public enum LegendaryEncounters {
             if (StringUtils.containsIgnoreCase(embTowerScript.getData(index), "<overworldpokemon.id>")) {
 
                 embTowerScript.setData(index,
-                        StringUtils.replace(embTowerScript.getData(index), LegendaryEncounters.RESHIRAM.id,
-                                LegendaryEncounters.RESHIRAM.newId));
+                        StringUtils.replace(embTowerScript.getData(index), LegendaryEncounter.RESHIRAM.id,
+                                LegendaryEncounter.RESHIRAM.newId));
                 embTowerScript.setData(index,
-                        StringUtils.replace(embTowerScript.getData(index), LegendaryEncounters.ZEKROM.id,
-                                LegendaryEncounters.ZEKROM.newId));
+                        StringUtils.replace(embTowerScript.getData(index), LegendaryEncounter.ZEKROM.id,
+                                LegendaryEncounter.ZEKROM.newId));
             }
         }
 

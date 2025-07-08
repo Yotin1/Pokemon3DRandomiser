@@ -16,7 +16,7 @@ import io.github.yotin1.p3drandomiser.Randomiser;
  * contains methods for randomising the script files of each encounter.
  *
  */
-public enum RoamingEncounters {
+public enum RoamingEncounter {
 
 	RAIKOU_ENTEI(null, null) {
 
@@ -76,7 +76,7 @@ public enum RoamingEncounters {
 	protected P3DFile scriptFile;
 	protected String newId;
 
-	RoamingEncounters(String scriptPath, String id) {
+	RoamingEncounter(String scriptPath, String id) {
 
 		this.id = id;
 

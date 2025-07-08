@@ -20,7 +20,7 @@ import io.github.yotin1.p3drandomiser.Randomiser;
  * randomising the script and map files of each encounter.
  *
  */
-public enum StaticEncounters {
+public enum StaticEncounter {
 
     UNOWN(null, "alph\\alph03.dat", "201") {
 
@@ -322,7 +322,7 @@ public enum StaticEncounters {
 
     protected String newId;
 
-    StaticEncounters(String scriptPath, String mapPath, String id) {
+    StaticEncounter(String scriptPath, String mapPath, String id) {
 
         this.id = id;
 
@@ -364,9 +364,7 @@ public enum StaticEncounters {
                     String[] values = StringUtils.splitPreserveAllTokens(this.scriptFile.getCommand(index), ",");
                     values[0] = this.newId;
                     this.scriptFile.replaceCommand(index, StringUtils.join(values, ","));
-                }
-
-                if (StringUtils.containsIgnoreCase(prefix, "@text.show")) {
+                } else if (StringUtils.containsIgnoreCase(prefix, "@text.show")) {
 
                     this.scriptFile.replaceCommand(index, P3DFile.replaceName(this.scriptFile.getCommand(index),
                             this.id, this.newId));
