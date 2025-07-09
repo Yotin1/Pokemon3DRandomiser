@@ -7,6 +7,11 @@ import io.github.yotin1.p3drandomiser.P3DFile;
 import io.github.yotin1.p3drandomiser.Pokemon;
 import io.github.yotin1.p3drandomiser.Randomiser;
 
+/**
+ * An enumeration object contaning data of starter Pokemon and methods for
+ * randomising them.
+ *
+ */
 public enum Starter {
 
     CHIKORITA("152", "elmlab\\chikorita.dat"),
@@ -41,6 +46,9 @@ public enum Starter {
         return this.newId;
     }
 
+    /**
+     * Replaces the starter in each script file with a random Pokemon.
+     */
     public void randomise() {
 
         Pokemon oldPokemon = new Pokemon(this.id);
