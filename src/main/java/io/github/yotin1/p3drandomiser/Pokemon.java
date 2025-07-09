@@ -21,6 +21,8 @@ public class Pokemon extends P3DFile {
     private String type1;
     private String type2;
     private List<String> evolutions = new ArrayList<String>();
+    private String devolution;
+    private String eggPokemon;
     private Set<String> machines = new LinkedHashSet<String>();
 
     public Pokemon(String id) {
@@ -51,6 +53,14 @@ public class Pokemon extends P3DFile {
                         this.evolutions.add(propertyArray[1]);
                         break;
 
+                    case "Devolution":
+                        this.devolution = propertyArray[1];
+                        break;
+
+                    case "EggPokemon":
+                        this.eggPokemon = propertyArray[1];
+                        break;
+
                     case "Machines":
                         this.machines.addAll(Arrays.asList(StringUtils.splitPreserveAllTokens(propertyArray[1], ",")));
                         break;
@@ -77,6 +87,14 @@ public class Pokemon extends P3DFile {
 
     public List<String> getEvolutions() {
         return this.evolutions;
+    }
+
+    public String getDevolution() {
+        return this.devolution;
+    }
+
+    public String getEggPokemon() {
+        return this.eggPokemon;
     }
 
     public Set<String> getMachines() {
