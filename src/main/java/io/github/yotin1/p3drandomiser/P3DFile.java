@@ -208,16 +208,16 @@ public class P3DFile {
                     .forEach(path -> {
                         P3DFile file = new P3DFile(path);
                         file.getData().forEach(line -> {
-                            if (StringUtils.containsIgnoreCase(line, "@battle.wild")) {
+                            if (StringUtils.containsIgnoreCase(line, "@battle.wild(")) {
                                 staticList.add(path);
                             }
-                            if (StringUtils.containsIgnoreCase(line, "@pokemon.newroaming")) {
+                            if (StringUtils.containsIgnoreCase(line, "@pokemon.newroaming(")) {
                                 roamingList.add(path);
                             }
-                            if (StringUtils.containsIgnoreCase(line, "@pokemon.npctrade")) {
+                            if (StringUtils.containsIgnoreCase(line, "@pokemon.npctrade(")) {
                                 tradeList.add(path);
                             }
-                            if (StringUtils.containsIgnoreCase(line, "@pokemon.add")) {
+                            if (StringUtils.containsIgnoreCase(line, "@pokemon.add(")) {
                                 giftList.add(path);
                             }
                         });

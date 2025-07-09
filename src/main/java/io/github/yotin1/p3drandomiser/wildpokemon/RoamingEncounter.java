@@ -50,7 +50,7 @@ public enum RoamingEncounter {
 
 					String line = file.getData(index);
 
-					if (StringUtils.containsIgnoreCase(line, "@pokemon.newroaming(")) {
+					if (StringUtils.endsWithIgnoreCase(line, "@pokemon.newroaming")) {
 
 						String[] lineAsArray = StringUtils.split(file.getCommand(index), "(,)");
 

@@ -59,14 +59,14 @@ public enum Starter {
             String line = this.scriptFile.getData(index);
             String prefix = StringUtils.substringBefore(line, "(");
 
-            if (StringUtils.containsIgnoreCase(prefix, "@screen.showpokemon")
-                    || StringUtils.containsIgnoreCase(prefix, "@pokemon.add")) {
+            if (StringUtils.endsWithIgnoreCase(prefix, "@screen.showpokemon")
+                    || StringUtils.endsWithIgnoreCase(prefix, "@pokemon.add")) {
 
                 String[] values = StringUtils.splitPreserveAllTokens(this.scriptFile.getCommand(index), ",");
                 values[0] = this.newId;
                 this.scriptFile.replaceCommand(index, StringUtils.join(values, ","));
 
-            } else if (StringUtils.containsIgnoreCase(prefix, "@text.show")) {
+            } else if (StringUtils.endsWithIgnoreCase(prefix, "@text.show")) {
 
                 this.scriptFile.replaceCommand(index,
                         StringUtils.replaceEach(this.scriptFile.getCommand(index),

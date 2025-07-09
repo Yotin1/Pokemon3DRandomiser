@@ -49,12 +49,12 @@ public enum LegendaryEncounter {
                 String line = this.shinyFile.getData(index);
                 String prefix = StringUtils.substringBefore(line, "(");
 
-                if (StringUtils.containsIgnoreCase(prefix, "@npc.wearskin")) {
+                if (StringUtils.endsWithIgnoreCase(prefix, "@npc.wearskin")) {
 
                     String[] values = StringUtils.splitPreserveAllTokens(this.shinyFile.getCommand(index), ",");
                     values[1] = StringUtils.replace(values[1], this.id, this.newId);
                     this.shinyFile.replaceCommand(index, StringUtils.join(values, ","));
-                } else if (StringUtils.containsIgnoreCase(prefix, "@pokemon.cry") && index >= 42) {
+                } else if (StringUtils.endsWithIgnoreCase(prefix, "@pokemon.cry") && index >= 42) {
 
                     String[] values = StringUtils.splitPreserveAllTokens(this.shinyFile.getCommand(index), ",");
                     values[0] = this.newId;
@@ -113,14 +113,14 @@ public enum LegendaryEncounter {
                     String line = file.getData(index);
                     String prefix = StringUtils.substringBefore(line, "(");
 
-                    if (StringUtils.containsIgnoreCase(prefix, "@npc.wearskin")) {
+                    if (StringUtils.endsWithIgnoreCase(prefix, "@npc.wearskin")) {
 
                         String[] values = StringUtils.splitPreserveAllTokens(file.getCommand(index), ",");
                         values[1] = StringUtils.replace(values[1], this.id, this.newId);
                         file.replaceCommand(index, StringUtils.join(values, ","));
                     }
 
-                    if (StringUtils.containsIgnoreCase(prefix, "@pokemon.cry")) {
+                    if (StringUtils.endsWithIgnoreCase(prefix, "@pokemon.cry")) {
 
                         String[] values = StringUtils.splitPreserveAllTokens(file.getCommand(index), ",");
                         values[0] = this.newId;
@@ -205,13 +205,13 @@ public enum LegendaryEncounter {
                         "@battle.setvar(custombattlemusic,") && !musicChanged) {
                     index = changeMusic(index, newMusic);
                     musicChanged = true;
-                } else if (StringUtils.containsIgnoreCase(prefix, "@pokemon.cry")
-                        || StringUtils.containsIgnoreCase(prefix, "@battle.wild")) {
+                } else if (StringUtils.endsWithIgnoreCase(prefix, "@pokemon.cry")
+                        || StringUtils.endsWithIgnoreCase(prefix, "@battle.wild")) {
 
                     String[] values = StringUtils.splitPreserveAllTokens(this.scriptFile.getCommand(index), ",");
                     values[0] = this.newId;
 
-                    if (StringUtils.containsIgnoreCase(prefix, "@battle.wild")) {
+                    if (StringUtils.endsWithIgnoreCase(prefix, "@battle.wild")) {
 
                         if (!musicChanged) {
 
@@ -223,7 +223,7 @@ public enum LegendaryEncounter {
                     }
 
                     this.scriptFile.replaceCommand(index, StringUtils.join(values, ","));
-                } else if (StringUtils.containsIgnoreCase(prefix, "@text.show")) {
+                } else if (StringUtils.endsWithIgnoreCase(prefix, "@text.show")) {
                     this.scriptFile.replaceCommand(index, P3DFile.replaceName(this.scriptFile.getCommand(index),
                             this.id, this.newId));
                 }
@@ -312,12 +312,12 @@ public enum LegendaryEncounter {
                 String line = this.shinyFile.getData(index);
                 String prefix = StringUtils.substringBefore(line, "(");
 
-                if (StringUtils.containsIgnoreCase(prefix, "@npc.wearskin")) {
+                if (StringUtils.endsWithIgnoreCase(prefix, "@npc.wearskin")) {
 
                     String[] values = StringUtils.splitPreserveAllTokens(this.shinyFile.getCommand(index), ",");
                     values[1] = StringUtils.replace(values[1], this.id, this.newId);
                     this.shinyFile.replaceCommand(index, StringUtils.join(values, ","));
-                } else if (StringUtils.containsIgnoreCase(prefix, "@pokemon.cry")) {
+                } else if (StringUtils.endsWithIgnoreCase(prefix, "@pokemon.cry")) {
 
                     String[] values = StringUtils.splitPreserveAllTokens(this.shinyFile.getCommand(index), ",");
                     values[0] = this.newId;
