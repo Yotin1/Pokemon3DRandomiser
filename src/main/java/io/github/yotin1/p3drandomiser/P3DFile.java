@@ -81,7 +81,8 @@ public class P3DFile {
                 }
 
                 this.data = new ArrayList<String>(
-                        Arrays.asList(StringUtils.split(new String(byteArray, this.charset), System.lineSeparator())));
+                        Arrays.asList(StringUtils.splitByWholeSeparatorPreserveAllTokens(
+                                new String(byteArray, this.charset), System.lineSeparator())));
             }
         } catch (IOException e) {
             e.printStackTrace();
