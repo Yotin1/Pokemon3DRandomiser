@@ -19,8 +19,8 @@ import io.github.yotin1.p3drandomiser.Randomiser;
  */
 public class Trainer extends P3DFile {
 
-    private List<String> pokeList = new ArrayList<String>();
-    private int pokeListStartIndex = -1;
+    protected List<String> pokeList = new ArrayList<String>();
+    protected int pokeListStartIndex = -1;
 
     public Trainer(Path path) {
 
@@ -28,9 +28,9 @@ public class Trainer extends P3DFile {
 
         for (int index = 0; index < this.data.size(); index++) {
 
-            String[] line = StringUtils.splitPreserveAllTokens(this.data.get(index), "|");
+            String[] line = StringUtils.split(this.data.get(index), "|");
 
-            if (Pattern.matches("Pokemon\\d", line[0])) {
+            if (Pattern.matches("Pokemon\\d", line[0]) && line.length == 2) {
 
                 this.pokeListStartIndex = (this.pokeListStartIndex == -1 ? index : this.pokeListStartIndex);
                 this.pokeList.add(line[1]);

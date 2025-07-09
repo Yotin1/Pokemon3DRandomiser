@@ -103,7 +103,7 @@ public class P3DFile {
         if (index == 0 && ((byte) line.charAt(0) == -1 || (byte) line.charAt(0) == -2)) {
             return StringUtils.substring(line, 1);
         }
-        return this.data.get(index);
+        return line;
     }
 
     public Charset getCharset() {
