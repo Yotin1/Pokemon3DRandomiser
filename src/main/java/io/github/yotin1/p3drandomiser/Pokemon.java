@@ -30,9 +30,9 @@ public class Pokemon extends P3DFile {
         super(Paths.get("Content\\Pokemon\\Data\\" + id + ".dat"));
         this.id = id;
 
-        for (String property : this.data) {
+        for (int index = 0; index < this.data.size(); index++) {
 
-            String[] propertyArray = StringUtils.splitPreserveAllTokens(property, "|");
+            String[] propertyArray = StringUtils.splitPreserveAllTokens(this.getData(index), "|");
 
             if (propertyArray.length > 1) {
                 switch (propertyArray[0]) {
@@ -101,6 +101,9 @@ public class Pokemon extends P3DFile {
         return this.machines;
     }
 
+    /**
+     * Adds all HMs to the list of machines this Pokemon can learn
+     */
     public void addHMs() {
 
         List<String> hms = Arrays.asList("15", "19", "57", "70", "127", "148", "250", "291", "431", "560");
@@ -108,6 +111,9 @@ public class Pokemon extends P3DFile {
         updateFile();
     }
 
+    /**
+     * Updates the raw Pokemon data
+     */
     public void updateFile() {
 
         for (int x = 0; x < this.data.size(); x++) {
