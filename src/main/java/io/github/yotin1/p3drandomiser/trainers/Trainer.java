@@ -3,7 +3,6 @@ package io.github.yotin1.p3drandomiser.trainers;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -94,6 +93,13 @@ public class Trainer extends P3DFile {
         this.pokeList.set(index, matcher.replaceAll(""));
     }
 
+    /**
+     * Replaces the value of a particular line of this trainer data
+     * using an index and new value.
+     * 
+     * @param index    the line of this trainer data to search
+     * @param newValue replaces the old value of the line
+     */
     public void replaceLine(int index, String newValue) {
 
         String[] lineAsArray = StringUtils.splitPreserveAllTokens(this.data.get(index), "|");

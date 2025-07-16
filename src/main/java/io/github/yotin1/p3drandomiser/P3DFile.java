@@ -1,8 +1,6 @@
 package io.github.yotin1.p3drandomiser;
 
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -97,6 +95,13 @@ public class P3DFile {
         return this.data;
     }
 
+    /**
+     * Gets a particular line from the file data. Will ignore any BOMs found in the
+     * first line.
+     * 
+     * @param index the line of the file data to get
+     * @return the string at the specified index
+     */
     public String getData(int index) {
 
         String line = this.data.get(index);
@@ -127,6 +132,15 @@ public class P3DFile {
         this.data.remove(index);
     }
 
+    /**
+     * Writes the input data to a file at the relative path between the GameMode
+     * directory and the target path.
+     * 
+     * @param data       the data to write to the file
+     * @param targetPath the path to write the file to. Can be a relative or
+     *                   absolute path
+     * @param charset    the charset to encode the data to
+     */
     public static void writeFile(List<String> data, Path targetPath, Charset charset) {
 
         Path gameModePath = Paths.get("GameModes\\" + GameMode.getName()).resolve(targetPath);
@@ -147,6 +161,11 @@ public class P3DFile {
         }
     }
 
+    /**
+     * Writes this file data to a file at the relative path between the GameMode
+     * directory and this path.
+     * 
+     */
     public void writeFile() {
 
         Path gameModePath = Paths.get("GameModes\\" + GameMode.getName()).resolve(this.path);
@@ -167,17 +186,37 @@ public class P3DFile {
         }
     }
 
+    /**
+     * Gets the command attributes in a particular line of data
+     * 
+     * @param index the line to get the attributes from
+     * @return the attributes in the line of data
+     */
     public String getCommand(int index) {
 
         return StringUtils.substringBetween(this.data.get(index), "(", ")");
     }
 
+    /**
+     * Replaces the command attributes in a particular line of data
+     * 
+     * @param index the line to replace the attributes
+     */
     public void replaceCommand(int index, String newCommand) {
 
         String oldCommand = getCommand(index);
         this.data.set(index, StringUtils.replace(this.data.get(index), oldCommand, newCommand));
     }
 
+    /**
+     * Replace all instances of a Pokemon's name in a given string with a new name.
+     * Also handles changes between vowels/consonants.
+     * 
+     * @param text  the input string
+     * @param oldId the ID of the old Pokemon
+     * @param newId the ID of the new Pokemon
+     * @return the string with the names replaced
+     */
     public static String replaceName(String text, String oldId, String newId) {
 
         String oldName = new Pokemon(oldId).getName();
@@ -196,6 +235,15 @@ public class P3DFile {
         return text;
     }
 
+    /**
+     * Scans the game files to find instances of
+     * <ul>
+     * <li>static encounter scripts/map files</li>
+     * <li>roaming Pokemon</li>
+     * <li>NPC trades</li>
+     * <li>NPC gifts</li>
+     * </ul>
+     */
     public static void scanFiles() {
 
         Set<Path> staticList = new LinkedHashSet<Path>();

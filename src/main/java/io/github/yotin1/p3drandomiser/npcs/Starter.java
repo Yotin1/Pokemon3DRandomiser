@@ -47,7 +47,7 @@ public enum Starter {
     }
 
     /**
-     * Replaces the starter in each script file with a random Pokemon.
+     * Replaces the starter in this script file with a random Pokemon.
      */
     public void randomise() {
 

@@ -18,6 +18,13 @@ public class P3DMap extends P3DFile {
 
     }
 
+    /**
+     * Gets the value and data type of a key in a given line
+     * 
+     * @param index
+     * @param key
+     * @return an array containing the data type and value of the key
+     */
     public String[] getTag(int index, String key) {
 
         String tagData = StringUtils.substringBetween(this.data.get(index), String.format("\"%s\"{", key), "}");
@@ -28,6 +35,13 @@ public class P3DMap extends P3DFile {
         return new String[] { dataType, dataValue };
     }
 
+    /**
+     * Replaces the value of a key in a given line
+     * 
+     * @param index
+     * @param key
+     * @param newTag the new value
+     */
     public void replaceTag(int index, String key, String newTag) {
 
         String[] oldTag = getTag(index, key);

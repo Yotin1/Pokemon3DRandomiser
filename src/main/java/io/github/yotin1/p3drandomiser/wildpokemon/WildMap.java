@@ -40,6 +40,10 @@ public class WildMap extends P3DFile {
         return this.encounters;
     }
 
+    /**
+     * Replaces each encounter with a random Pokemon for this area, then saves
+     * the new data as a poke file into the generated GameMode folder.
+     */
     public void randomise() {
         encounters.replaceAll(encounter -> {
             if (encounter != null) {

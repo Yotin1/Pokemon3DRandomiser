@@ -8,7 +8,6 @@ import org.apache.commons.lang3.StringUtils;
 
 import io.github.yotin1.p3drandomiser.LegendaryPokemon;
 import io.github.yotin1.p3drandomiser.P3DFile;
-import io.github.yotin1.p3drandomiser.P3DMap;
 import io.github.yotin1.p3drandomiser.Randomiser;
 
 /**
@@ -87,6 +86,9 @@ public enum RoamingEncounter {
 		this.newId = Randomiser.getRandomLegendaryPokemon();
 	}
 
+	/**
+	 * Randomises each file for this roaming Pokemon
+	 */
 	public void randomise() {
 
 	}

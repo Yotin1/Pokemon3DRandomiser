@@ -1,6 +1,5 @@
 package io.github.yotin1.p3drandomiser.wildpokemon;
 
-import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -12,7 +11,6 @@ import io.github.yotin1.p3drandomiser.LegendaryPokemon;
 import io.github.yotin1.p3drandomiser.P3DFile;
 import io.github.yotin1.p3drandomiser.P3DMap;
 import io.github.yotin1.p3drandomiser.Randomiser;
-import io.github.yotin1.p3drandomiser.trainers.Trainer;
 
 /**
  * An enumeration object contaning data of legendary static encounters. Also
@@ -233,6 +231,13 @@ public enum LegendaryEncounter {
         }
     }
 
+    /**
+     * Changes the battle music of this encounter.
+     * 
+     * @param lineNum  the element of the data list to change
+     * @param newMusic replaces the old music
+     * @return the line number depending on if lines were added/removed
+     */
     private int changeMusic(int lineNum, String newMusic) {
 
         if (StringUtils.containsIgnoreCase(this.scriptFile.getData(lineNum),

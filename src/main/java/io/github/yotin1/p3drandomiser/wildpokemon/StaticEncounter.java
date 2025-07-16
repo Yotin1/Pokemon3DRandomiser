@@ -24,7 +24,7 @@ public enum StaticEncounter {
 
     UNOWN(null, "alph\\alph03.dat", "201") {
 
-        protected List<String> newId = new ArrayList<String>();
+        protected List<String> newIds = new ArrayList<String>();
 
         @Override
         public void randomiseScript() {
@@ -35,7 +35,7 @@ public enum StaticEncounter {
                         .forEach(path -> {
 
                             P3DFile file = new P3DFile(path);
-                            this.newId.add(Randomiser.getRandomPokemon());
+                            this.newIds.add(Randomiser.getRandomPokemon());
 
                             for (int index = 0; index < file.getData().size(); index++) {
                                 String line = file.getData(index);
@@ -45,7 +45,7 @@ public enum StaticEncounter {
                                         || StringUtils.endsWithIgnoreCase(prefix, "@battle.wild")) {
 
                                     String[] values = StringUtils.splitPreserveAllTokens(file.getCommand(index), ",");
-                                    values[0] = this.newId.get(this.newId.size() - 1);
+                                    values[0] = this.newIds.get(this.newIds.size() - 1);
                                     file.replaceCommand(index, StringUtils.join(values, ","));
                                 }
                             }
@@ -72,7 +72,7 @@ public enum StaticEncounter {
 
                     this.mapFile.replaceTag(index, "TextureID",
                             StringUtils.replace(this.mapFile.getTag(index, "TextureID")[1], this.id,
-                                    this.newId.get(count)));
+                                    this.newIds.get(count)));
                     count++;
                 }
             }
@@ -124,7 +124,7 @@ public enum StaticEncounter {
 
     ELECTRODE(null, "rocketbase\\rocketbase2.dat", "101") {
 
-        protected List<String> newId = new ArrayList<String>();
+        protected List<String> newIds = new ArrayList<String>();
 
         @Override
         public void randomiseScript() {
@@ -135,7 +135,7 @@ public enum StaticEncounter {
                         .forEach(path -> {
 
                             P3DFile file = new P3DFile(path);
-                            this.newId.add(Randomiser.getRandomPokemon());
+                            this.newIds.add(Randomiser.getRandomPokemon());
 
                             for (int index = 0; index < file.getData().size(); index++) {
 
@@ -146,7 +146,7 @@ public enum StaticEncounter {
                                         || StringUtils.endsWithIgnoreCase(prefix, "@battle.wild")) {
 
                                     String[] values = StringUtils.splitPreserveAllTokens(file.getCommand(index), ",");
-                                    values[0] = this.newId.get(this.newId.size() - 1);
+                                    values[0] = this.newIds.get(this.newIds.size() - 1);
                                     file.replaceCommand(index, StringUtils.join(values, ","));
                                 }
                             }
@@ -171,7 +171,8 @@ public enum StaticEncounter {
                         .contains(this.mapFile.getTag(index, "AdditionalValue")[1])) {
 
                     this.mapFile.replaceTag(index, "TextureID",
-                            StringUtils.replace(this.mapFile.getTag(index, "TextureID")[1], this.id, newId.get(count)));
+                            StringUtils.replace(this.mapFile.getTag(index, "TextureID")[1], this.id,
+                                    newIds.get(count)));
                     count++;
                 }
             }
@@ -349,6 +350,10 @@ public enum StaticEncounter {
         return this.mapFile;
     }
 
+    /**
+     * Replaces the encountered Legendary Pokemon with a random one. Also changes
+     * the Pokemon cry, battle music and names in any npc dialogue.
+     */
     public void randomiseScript() {
 
         if (this.scriptFile != null) {
@@ -376,9 +381,20 @@ public enum StaticEncounter {
     }
 
     // ? Will implement later
+    /**
+     * Changes the battle music of this encounter.
+     * 
+     * @param lineNum  the element of the data list to change
+     * @param newMusic replaces the old music
+     * @return the line number depending on if lines were added/removed
+     */
     private void changeMusic() {
     }
 
+    /**
+     * Replaces the overworld sprite of the Legendary Pokemon with a random one.
+     * Also changes the names in any npc dialogue.
+     */
     public void randomiseMap() {
 
         if (this.mapFile != null) {
@@ -400,6 +416,9 @@ public enum StaticEncounter {
         }
     }
 
+    /**
+     * Randomises each file for this static Pokemon
+     */
     public void randomise() {
 
         this.randomiseScript();
