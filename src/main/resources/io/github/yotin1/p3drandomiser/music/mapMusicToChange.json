@@ -1,0 +1,30 @@
+{
+    "cianwood.dat": {
+        "oldMusic": "ecruteak",
+        "newMusic": "cianwood"
+    },
+    "cianwood": {
+        "oldMusic": "ecruteak",
+        "newMusic": "cianwood"
+    },
+    "fuchsia": {
+        "oldMusic": "celadon",
+        "newMusic": "cerulean"
+    },
+    "pewter": {
+        "oldMusic": "cerulean",
+        "newMusic": "pewter"
+    },
+    "saffron": {
+        "oldMusic": "cerulean",
+        "newMusic": "pewter"
+    },
+    "viridian": {
+        "oldMusic": "cerulean",
+        "newMusic": "pewter"
+    },
+    "gates": {
+        "oldMusic": "null",
+        "newMusic": "null"
+    }
+}
