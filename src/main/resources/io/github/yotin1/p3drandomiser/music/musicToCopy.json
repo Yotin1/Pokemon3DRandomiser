@@ -1,0 +1,57 @@
+{
+    "johto_wild": {
+        "newFiles": [
+            "arceus_battle",
+            "gen3_legend_battle",
+            "gen3_legend_battle2",
+            "gen4_legend_battle",
+            "gen4_legend_battle2",
+            "gen4_legend_battle3",
+            "gen5_legend_battle",
+            "gen6_legend_battle",
+            "gen6_legend_battle2",
+            "giratina_battle",
+            "rayquaza_battle",
+            "regi_battle"
+        ],
+        "includeIntro": "true",
+        "includeIntroFolder": "true"
+    },
+    "kanto_wild": {
+        "newFiles": [
+            "gen1_legend_battle"
+        ],
+        "includeIntro": "true",
+        "includeIntroFolder": "false"
+    },
+    "tao_legend_battle": {
+        "newFiles": [
+            "kyurem_battle",
+            "reshiram_battle",
+            "zekrom_battle"
+        ],
+        "includeIntro": "true",
+        "includeIntroFolder": "true"
+    },
+    "johto_rocket": {
+        "newFiles": [
+            "giovanni_battle"
+        ],
+        "includeIntro": "true",
+        "includeIntroFolder": "true"
+    },
+    "cerulean": {
+        "newFiles": [
+            "pewter"
+        ],
+        "includeIntro": "false",
+        "includeIntroFolder": "true"
+    },
+    "ecruteak": {
+        "newFiles": [
+            "cianwood"
+        ],
+        "includeIntro": "false",
+        "includeIntroFolder": "false"
+    }
+}
