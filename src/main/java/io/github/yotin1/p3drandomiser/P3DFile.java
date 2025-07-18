@@ -7,6 +7,7 @@ import java.nio.file.Files;
 import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedHashSet;
@@ -182,6 +183,33 @@ public class P3DFile {
             Files.write(gameModePath, this.data, this.charset);
         } catch (IOException e) {
             System.out.println(gameModePath);
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Copies the input file to the GameMode directory.
+     * 
+     * @param oldPath the path of the original file
+     * @param newPath the path to copy to
+     */
+    public static void copyFile(Path oldPath, Path newPath) {
+
+        oldPath = Randomiser.directory.resolve(oldPath);
+        newPath = Paths.get("GameModes\\" + GameMode.getName()).resolve(newPath);
+
+        if (!Files.exists(newPath.getParent())) {
+            try {
+                Files.createDirectories(newPath.getParent());
+            } catch (IOException e) {
+                System.out.println(newPath);
+                e.printStackTrace();
+            }
+        }
+        try {
+            Files.copy(oldPath, newPath, StandardCopyOption.REPLACE_EXISTING);
+        } catch (IOException e) {
+            System.out.println(newPath);
             e.printStackTrace();
         }
     }
