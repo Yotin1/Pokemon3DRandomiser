@@ -34,7 +34,6 @@ public class Rival extends Trainer {
         WATER_STARTER(Starter.TOTODILE.getId(), Starter.TOTODILE.getNewId());
 
         private final String[] oldIds;
-        private final String newId;
 
         private final String[] stages = new String[3];
         private final int[] evoLevels = new int[2];
@@ -43,7 +42,6 @@ public class Rival extends Trainer {
 
             this.oldIds = new String[] { oldId, String.valueOf(Integer.parseInt(oldId) + 1),
                     String.valueOf(Integer.parseInt(oldId) + 2) };
-            this.newId = newId;
 
             this.stages[0] = newId;
 

@@ -11,8 +11,6 @@ import org.apache.commons.lang3.StringUtils;
  */
 public class P3DMap extends P3DFile {
 
-    private String music;
-
     public P3DMap(Path path) {
         super(path);
 

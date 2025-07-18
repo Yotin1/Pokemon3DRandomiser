@@ -1,7 +1,5 @@
 package io.github.yotin1.p3drandomiser.music;
 
-import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
@@ -11,9 +9,7 @@ import java.util.Map;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import io.github.yotin1.p3drandomiser.GameMode;
 import io.github.yotin1.p3drandomiser.P3DFile;
-import io.github.yotin1.p3drandomiser.Randomiser;
 
 /**
  * An object containing methods for duplicating music files for the custom

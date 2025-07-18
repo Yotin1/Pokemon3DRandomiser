@@ -1,8 +1,5 @@
 package io.github.yotin1.p3drandomiser.npcs;
 
-import java.util.Arrays;
-import java.util.regex.Pattern;
-
 import org.apache.commons.lang3.StringUtils;
 
 import io.github.yotin1.p3drandomiser.FontHandler;
@@ -17,12 +14,11 @@ import io.github.yotin1.p3drandomiser.Randomiser;
  */
 public enum GameCorner {
 
-    DRATINI("147", "2100C"),
-    MR_MIME("122", "3333C"),
-    EEVEE("133", "6666C"),
-    PORYGON("137", "9999C");
+    DRATINI("2100C"),
+    MR_MIME("3333C"),
+    EEVEE("6666C"),
+    PORYGON("9999C");
 
-    private final String id;
     private final String price;
 
     private final String newId;
@@ -31,9 +27,8 @@ public enum GameCorner {
 
     private static int maxLength = 104;
 
-    GameCorner(String id, String price) {
+    GameCorner(String price) {
 
-        this.id = id;
         this.price = price;
 
         this.newId = Randomiser.getRandomPokemon();

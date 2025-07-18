@@ -1,6 +1,5 @@
 package io.github.yotin1.p3drandomiser;
 
-import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
