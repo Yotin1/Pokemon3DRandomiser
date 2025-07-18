@@ -4,16 +4,12 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
-import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Set;
-import java.util.regex.Pattern;
 
 import org.apache.commons.io.ByteOrderMark;
 import org.apache.commons.io.IOUtils;
@@ -261,94 +257,6 @@ public class P3DFile {
                 : StringUtils.replaceEach(text, anArray, aArray));
 
         return text;
-    }
-
-    /**
-     * Scans the game files to find instances of
-     * <ul>
-     * <li>static encounter scripts/map files</li>
-     * <li>roaming Pokemon</li>
-     * <li>NPC trades</li>
-     * <li>NPC gifts</li>
-     * </ul>
-     */
-    public static void scanFiles() {
-
-        Set<Path> staticList = new LinkedHashSet<Path>();
-        Set<String> staticMaps = new LinkedHashSet<String>();
-        Set<Path> roamingList = new LinkedHashSet<Path>();
-        Set<Path> tradeList = new LinkedHashSet<Path>();
-        Set<Path> giftList = new LinkedHashSet<Path>();
-        try {
-            Files.walk(Randomiser.directory.resolve("Content\\Data\\Scripts"))
-                    .filter(path -> !path.toFile().isDirectory())
-                    .forEach(path -> {
-                        P3DFile file = new P3DFile(path);
-                        file.getData().forEach(line -> {
-                            if (StringUtils.containsIgnoreCase(line, "@battle.wild(")) {
-                                staticList.add(path);
-                            }
-                            if (StringUtils.containsIgnoreCase(line, "@pokemon.newroaming(")) {
-                                roamingList.add(path);
-                            }
-                            if (StringUtils.containsIgnoreCase(line, "@pokemon.npctrade(")) {
-                                tradeList.add(path);
-                            }
-                            if (StringUtils.containsIgnoreCase(line, "@pokemon.add(")) {
-                                giftList.add(path);
-                            }
-                        });
-                    });
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        try {
-            Files.walk(Randomiser.directory.resolve("Content\\Data\\maps"))
-                    .filter(path -> !path.toFile().isDirectory())
-                    .forEach(path -> {
-                        P3DMap file = new P3DMap(path);
-                        for (int index = 0; index < file.getData().size(); index++) {
-
-                            String line = file.getData(index);
-
-                            if (StringUtils.contains(line, "\"TextureID\"{str[[POKEMON|")) {
-
-                                String tag = file.getTag(index, "AdditionalValue")[1];
-
-                                if (tag != "") {
-
-                                    if (Pattern.matches("[a-zA-Z0-9_\\s\\\\]*", tag)) {
-
-                                        try {
-                                            if (staticList
-                                                    .contains(Randomiser.directory.resolve("Content\\Data\\Scripts\\"
-                                                            + tag
-                                                            + ".dat"))) {
-
-                                                staticMaps.add(path.toString());
-                                            }
-                                        } catch (InvalidPathException e) {
-                                            e.printStackTrace();
-                                        }
-                                    }
-                                }
-
-                            }
-                        }
-                    });
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        System.out.println("Static");
-        staticList.forEach(entry -> System.out.println(entry));
-        System.out.println("Maps");
-        staticMaps.forEach(entry -> System.out.println(entry));
-        System.out.println("\nRoaming");
-        roamingList.forEach(entry -> System.out.println(entry));
-        System.out.println("\nTrades");
-        tradeList.forEach(entry -> System.out.println(entry));
-        System.out.println("\nGift");
-        giftList.forEach(entry -> System.out.println(entry));
     }
 
     @Override
