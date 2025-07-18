@@ -9,6 +9,7 @@ module io.github.yotin1.p3drandomiser {
 
     opens io.github.yotin1.p3drandomiser.gui to javafx.fxml;
 
-    exports io.github.yotin1.p3drandomiser.gui;
     exports io.github.yotin1.p3drandomiser;
+    exports io.github.yotin1.p3drandomiser.gui;
+    exports io.github.yotin1.p3drandomiser.music;
 }
